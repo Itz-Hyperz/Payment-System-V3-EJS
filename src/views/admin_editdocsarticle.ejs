@@ -1,0 +1,51 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container">
+            <h1><code>Edit Docs Article</code></h1>
+            <br>
+            <form action="/backend/update/docsarticle/<%= article.uniqueid %>" method="post" enctype="multipart/form-data">
+              <div class="row justify-content-center">
+                <div class="col-lg-12 mb-3">
+                  <select name="category" class="form-select searchbox" required>
+                    <% categories.forEach(function(item) { %>
+                      <option value="<%= item.uniqueid %>"><%= item.name %></option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="text" name="title" class="form-control searchbox w-100" placeholder="Article title..." value="<%= article.title %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="text" name="link" class="form-control searchbox w-100" placeholder="Article link..." value="<%= article.link %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="number" name="pos" class="form-control searchbox w-100" placeholder="Article position..." value="<%= article.pos %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="text" name="discordroleid" class="form-control searchbox w-100" placeholder="Discord role ID..." value="<%= article.discordroleid %>">
+                </div>
+                <div class="col-lg-12 mb-3">
+                  <textarea type="text" name="content" class="form-control searchbox w-100" rows="5" placeholder="Article description..." required><%= article.content %></textarea>
+                </div>
+              </div>
+              <br>
+              <a href="/admin" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-theme">Save Article Changes</button>
+            </form>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

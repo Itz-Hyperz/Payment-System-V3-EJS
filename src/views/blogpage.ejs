@@ -1,0 +1,56 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= blog.title %> | <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="<%= blog.title %> | <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= blog.content %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= blog.content %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="p-5 text-start mb-5 custompagesmaindiv">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 text-start">
+                    <h1 class="bigfont"><span class="text-theme">#</span>: <%= blog.title %></h1>
+                    <h3 class="bigfont"><i class="fa-regular fa-calendar text-theme"></i>: <%= blog.datetime %></h3>
+                    <h3 class="bigfont"><i class="fa-solid fa-eye text-theme"></i>: <%= blog.views.toLocaleString() %></h3>
+                    <hr>
+                    <%- converted %>
+                </div>
+                <div class="col-lg-3 text-center p-4">
+                    <div class="bg-thatdark w-100 p-4 bd-theme" style="border-radius: 0.5em;">
+                        <h2>Our Blog Posts</h2>
+                        <hr>
+                        <% if(randBlogs[0]) { %>
+                            <div class="list-group">
+                                <% randBlogs.forEach(function(post) { %>
+                                    <a href="/blog/<%= post.link %>" class="list-group-item text-start list-group-item-action list-group-item-dark"><span class="text-white"># </span><%= post.title.slice(0, 30) %>...</a>
+                                <% }); %>
+                            </div>
+                        <% } else { %>
+                            <p class="text-secondary mt-3 mb-3">There are no blog posts to display...</p>
+                        <% } %>
+                        <a href="/blogs" class="btn btn-outline-theme mt-4 w-100 mb-2">View All Blog Posts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if(isStaff) { %>
+            <br>
+            <div class="container text-start mb-5">
+                <hr>
+                <h5>Edit Blog Post (supports markdown)</h5>
+                <form action="/backend/update/blog/<%= blog.uniqueid %>" method="post">
+                    <textarea class="form-control darkinputcolor" name="pagecontent" placeholder="Your page content..." rows="12" required><%= blog.content %></textarea>
+                    <button type="submit" class="btn btn-theme" style="margin-top: 1em; width: 100%;"><i class="fa-solid fa-pen-to-square"></i> Save Changes</button>
+                </form>
+            </div>
+        <% }; %>
+        <%- include('_footer') %>
+    </body>
+</html>

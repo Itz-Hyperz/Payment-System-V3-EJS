@@ -1,0 +1,51 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Documentation - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Documentation - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="docspaddinglarge">
+            <div class="bg-thatdark docspaddinginner bd-theme">
+                <h1 class="mb-3" style="opacity: 0.9;"><%= sitesettings.sitename %> Documentation</h1>
+                <p class="mb-4">View documentation articles and categories here!</p>
+                <hr>
+                <div class="text-start mt-4 mb-5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="/docs">Home</a></li>
+                          <li class="breadcrumb-item active"><a class="text-theme" href="/docs/c/<%= category.link %>"><%= category.name %></a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-3 mb-3 text-center">
+                        <h1><i class="fa-solid fa-newspaper"></i> Articles</h1>
+                        <hr>
+                        <div class="fixedheightarticles">
+                            <ul style="font-size: 1.4em;" class="text-start">
+                                <% articles.forEach(function(item) { %>
+                                    <li><a href="/docs/c/<%= category.link %>/<%= item.link %>"><%= item.title %></a></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 mb-3 text-start">
+                        <h1><%= category.name %></h1>
+                        <hr>
+                        <%- category.description %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

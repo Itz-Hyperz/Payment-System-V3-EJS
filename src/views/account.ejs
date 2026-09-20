@@ -1,0 +1,385 @@
+<%
+    function convertInvoiceValue(value) {
+        if(value) {
+            return 'PAID';
+        } else {
+            return 'UNPAID';
+        };
+    };
+    function convertValue(value) {
+        if(value) {
+            return 'Yes';
+        } else {
+            return 'No';
+        };
+    };
+    function convertProdType(value) {
+        switch(value) {
+            case 1:
+                return 'fa-solid fa-download';
+                break;
+            case 2:
+                return 'fa-solid fa-rotate-right';
+                break;
+            case 3:
+                return 'fa-solid fa-box-open';
+                break;
+        };
+    };
+    function convertProdTypeMain(value) {
+        switch(value) {
+            case 1:
+                return 'Digital';
+                break;
+            case 2:
+                return 'Subscription';
+                break;
+            case 3:
+                return 'Physical';
+                break;
+        };
+    };
+    function convertStatus(value) {
+        switch(value) {
+            case 1:
+                return 'Recieved';
+                break;
+            case 2:
+                return 'Shipped';
+                break;
+            case 3:
+                return 'Delivered';
+                break;
+            case undefined:
+                return 'Delivered';
+                break;
+        };
+    };
+    function convertOrderStatusColor(value) {
+        switch(value) {
+        case 1:
+            return 'text-warning';
+            break;
+        case 2:
+            return 'text-primary';
+            break;
+        case 3:
+            return 'text-success';
+            break;
+        };
+    };
+    daUser.mailendpoints = JSON.parse(daUser.mailendpoints);
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Account - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Account - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="accountpageparent mb-5 mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 mb-3">
+                    <div class="bg-thatdark p-5">
+                        <h2 class="bigfont"><i class="fa-solid fa-user"></i> Account Navigator</h2>
+                        <hr>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('information')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-circle-info"></i> Information</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('products')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-cart-shopping"></i> Owned Products</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('uploads')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-download"></i> Custom Uploads</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('subscriptions')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-retweet"></i> Subscriptions</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('invoices')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-file-invoice"></i> All Invoices</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('quotes')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-cubes"></i> All Quotes</button>
+                        <button type="button" id="accountInfoButton" onclick="switcheroo('giftcards')" class="btn btn-outline-theme w-100 text-start aligncentermobile mb-3"><i class="fa-solid fa-gift"></i> Gift Cards</button>
+                        <% if(staff) { %>
+                            <hr>
+                            <p><a href="/backend/account/toggleban/<%= daUser.id %>" class="text-start btn btn-outline-warning w-100 mb-3"><i class="fa-solid fa-gavel"></i> Ban/Unban Account</a></p>
+                            <p><a href="/backend/account/delete/user/<%= daUser.id %>" class="text-start btn btn-outline-danger w-100 mb-3"><i class="fa-solid fa-trash"></i> Delete Account</a></p>
+                        <% }; %>
+                    </div>
+                </div>
+                <div class="col-lg-9 mb-3">
+                    <div class="p-3">
+                        <div id="information" style="display: solid;" class="p-2">
+                            <img src="/images/avatar_<%= daUser.id %>.png" class="reviewlogo bg-theme bd-theme boxshadowlight" alt="user image" loading="lazy">
+                            <h2 class="reviewheader"><%= daUser.username %></h2>
+                            <% if(staff) { %>
+                                <div class="mx-auto">
+                                    <p class="btn btn-lg btn-outline-theme nohoverbuttonchange mx-auto mb-2" style="font-weight: 700;"><i class="fa-solid fa-wifi"></i> IP Address: <span class="filterblurextra"><%= daUser.latestip %></span></p>
+                                </div>
+                                <hr>
+                                <form method="post" action="/backend/account/update/note/<%= daUser.id %>">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1" class="form-label">User Note:</label>
+                                        <textarea class="form-control bg-dark text-white bd-theme mb-3" rows="4" name="note" placeholder="A user note goes here..." required><%= daUser.note %></textarea>
+                                        <button type="submit" class="btn btn-theme"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                                    </div>
+                                </form>
+                            <% }; %>
+                        </div>
+                        <div id="products" style="display: none;" class="p-2">
+                            <% if(staff) { %>
+                                <form action="/backend/account/add/product/<%= daUser.id %>" method="post">
+                                    <div class="addproductselectgroup mx-auto">
+                                        <div class="input-group mb-3">
+                                            <select class="form-select bg-dark" name="product" required>
+                                                <% products.forEach(function(product) { %>
+                                                    <% if(product.prodtype != 3) { %>
+                                                        <option value="<%= product.uniqueid %>"><%= product.name %></option>
+                                                    <% }; %>        
+                                                <% }); %>
+                                            </select>
+                                            <input type="integer" name="amount" class="form-control searchbox" placeholder="Amount paid... (14.99)" required>
+                                            <button type="submit" class="btn btn-theme">Add Product</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% }; %>
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>Owned Items</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">Product Name</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Date Bought</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Price</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Type / Status</p></th>
+                                            <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% ownedItems.sort((a, b) => { return a.status - b.status; }).sort((a, b) => { return a.prodtype - b.prodtype; }).forEach(function(item) { %>
+                                                <tr>
+                                                    <td><a href="/backend/findproduct/<%= item.productid %>"><i class="<%= convertProdType(item.prodtype) %>"></i> <%= item.productname %></a></td>
+                                                    <td><%= item.datebought %></td>
+                                                    <td><%= config.paymentSettings.currencySymbol %><%= item.price %></td>
+                                                    <td><%= convertProdTypeMain(item.prodtype) %> / <span class="<%= convertOrderStatusColor(item.status) %>"><%= convertStatus(item.status) %></span></td>
+                                                    <td class="text-end"><% if(item.prodtype == 3) { %><a href="/shipping/<%= item.uniqueid %>" style="color: #0a7fdf;"><i class="fa-solid fa-box-open"></i></a> <% } else { %><% if(item.tebex) { %> <a href="https://keymaster.fivem.net/asset-grants" target="_blank" class="text-success"><i class="fa-solid fa-gamepad"></i></a> <% } else { %>(<%= item.downloads %>) <a href="/download/product/<%= item.productid %>" class="text-light"><i class="fa-solid fa-download"></i></a><% }; %> | <a href="/license/<%= item.uniqueid %>" class="text-warning"><i class="fa-solid fa-key"></i></a> <% }; %> | <a href="/receipt/<%= item.receipt %>" class="text-secondary"><i class="fa-solid fa-receipt"></i></a> <% if(staff) { %>| <a href="/backend/account/delete/product/<%= daUser.id %>/<%= item.uniqueid %>" class="text-danger"><i class="fa-solid fa-trash-can"></i></a> <% }; %></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>  
+                                </div>
+                            <% } %>
+                        </div>
+                        <div id="subscriptions" style="display: none;" class="p-2">
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>Subscriptions</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">Unique Id</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Price</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Next Due Date</p></th>
+                                            <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% subscriptions.forEach(function(item) { %>
+                                                <tr>
+                                                    <td><%= item.uniqueid %></td>
+                                                    <td><%= config.paymentSettings.currencySymbol %><%= item.price %></td>
+                                                    <td><%= item.nextduedate %></td>
+                                                    <td class="text-end"><a href="/backend/findproduct/<%= item.productid %>" class="text-theme">View Product</a> | <a href="/invoice/<%= item.invoiceid %>" class="text-theme">Pay Subscription</a> | <a href="/backend/delete/subs/<%= item.uniqueid %>" class="text-theme">Cancel</a></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div id="invoices" style="display: none;" class="p-2">
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>All Invoices</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">Title</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Date/Time</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Price</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Status</p></th>
+                                            <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% invoices.forEach(function(invoice) { %>
+                                                <tr>
+                                                    <td><%= invoice.title %></td>
+                                                    <td><%= invoice.datetime %></td>
+                                                    <td><%= config.paymentSettings.currencySymbol %><%= invoice.price %></td>
+                                                    <td><%= convertInvoiceValue(invoice.paid) %></td>
+                                                    <td class="text-end"><a href="/invoice/<%= invoice.uniqueid %>" class="text-theme">View Invoice</a></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div id="quotes" style="display: none;" class="p-2">
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>All Quotes</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">Title</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Date/Time</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Unique Id</p></th>
+                                            <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% quotes.forEach(function(quote) { %>
+                                                <tr>
+                                                    <td><%= quote.name %></td>
+                                                    <td><%= quote.datetime %></td>
+                                                    <td><%= quote.uniqueid %></td>
+                                                    <td class="text-end"><a href="/quote/<%= quote.uniqueid %>" class="text-theme">View Quote</a></td>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div id="uploads" style="display: none;" class="p-2">
+                            <% if(staff) { %>
+                                <br>
+                                <h4 class="mb-3"><i class="fa-solid fa-shield-halved"></i> Create Custom Upload</h4>
+                                <form action="/backend/create/ownedupload/<%= daUser.id %>" method="post" enctype="multipart/form-data">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-3 mb-3">
+                                            <input type="text" name="name" class="form-control searchbox" placeholder="File name..." required>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <input type="text" name="amount" class="form-control searchbox" placeholder="Amount paid... (14.99)" required>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <input type="file" name="file" class="form-control searchbox" required>
+                                        </div>
+                                        <div class="col-lg-3 mb-3">
+                                            <button type="submit" class="btn btn-outline-theme w-100"><i class="fa-solid fa-shield-halved"></i> Create Custom Upload</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% }; %>
+                            <br>
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>Custom Uploaded Items</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">File Name</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Date/Time</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Price</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Download (#)</p></th>
+                                            <% if(staff) { %>
+                                                <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                            <% }; %>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% ownedUploads.forEach(function(item) { %>
+                                                <tr>
+                                                    <td><%= item.name %></td>
+                                                    <td><%= item.datetime %></td>
+                                                    <td><%= config.paymentSettings.currencySymbol %><%= item.price %></td>
+                                                    <td><a href="/download/upload/<%= item.uniqueid %>" class="text-theme">Download</a> (<%= item.downloads %>)</td>
+                                                    <% if(staff) { %>
+                                                        <td class="text-end"><a href="/backend/account/delete/upload/<%= daUser.id %>/<%= item.uniqueid %>" class="text-danger">Delete</a></td>
+                                                    <% }; %>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div id="giftcards" style="display: none;" class="p-2">
+                            <% if(staff) { %>
+                                <br>
+                                <br>
+                                <h4 class="mb-3"><i class="fa-solid fa-gift"></i> Give Gift Cards</h4>
+                                <form action="/backend/add/giftcard/<%= daUser.id %>" method="post">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-6 mb-3">
+                                            <select class="form-select searchbox" name="giftcard" required>
+                                                <% allGiftCards.sort((a, b) => { return a.pos - b.pos }).forEach(function(item) { %>
+                                                    <option value="<%= item.uniqueid %>"><%= item.name %> (<%= config.paymentSettings.currencySymbol %><%= item.amount %>)</option>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <button type="submit" class="btn btn-theme w-100"><i class="fa-solid fa-gift"></i> Add Gift Card</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% }; %>
+                            <br>
+                            <% if(staff || myaccount) { %>
+                                <div class="customDiv">
+                                    <h5>Purchased Gift Cards</h5>
+                                    <table class="table table-bordered border-gray text-white">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><p style="text-decoration: underline;">Gift Card Code</p></th>
+                                            <th scope="col"><p style="text-decoration: underline;">Amount Left</p></th>
+                                            <% if(staff) { %>
+                                                <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                                            <% }; %>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% giftCards.forEach(function(item) { %>
+                                                <tr>
+                                                    <td><p class="censored"><%= item.code %></p></td>
+                                                    <td><%= config.paymentSettings.currencySymbol %><%= item.amount %></td>
+                                                    <% if(staff) { %>
+                                                        <td class="text-end"><a href="/backend/remove/giftcard/<%= daUser.id %>/<%= item.uniqueid %>" class="text-danger">Delete</a></td>
+                                                    <% }; %>
+                                                </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+            var information = document.getElementById('information');
+            var products = document.getElementById('products');
+            var subscriptions = document.getElementById('subscriptions');
+            var invoices = document.getElementById('invoices');
+            var quotes = document.getElementById('quotes');
+            var uploads = document.getElementById('uploads');
+            var giftcards = document.getElementById('giftcards');
+            function switcheroo(content) {
+                information.style.display = 'none';
+                products.style.display = 'none';
+                subscriptions.style.display = 'none';
+                invoices.style.display = 'none';
+                quotes.style.display = 'none';
+                uploads.style.display = 'none';
+                giftcards.style.display = 'none';
+                document.getElementById(content).style.display = 'block';
+            };
+        </script>
+    </body>
+</html>

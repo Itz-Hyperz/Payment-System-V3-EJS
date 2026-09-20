@@ -1,0 +1,252 @@
+<%
+  product.storetags = product.storetags.replaceAll(' ', '').split(',');
+%>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container p-4 bg-thatdark bd-theme mb-5">
+            <h1><code>Product Statistics</code></h1>
+            <br>
+            <div class="row justify-content-center">
+              <div class="col-lg-4 mb-3 bg-thatdark p-4" style="margin-left: 0.5em; margin-right: 0.5em;">
+                <h3><i class="fa-solid fa-eye"></i> Overall Views</h3>
+                <hr>
+                <h5 class="text-theme" style="font-weight: 700;"><%= product.overallviews.toLocaleString() %></h5>
+              </div>
+              <div class="col-lg-4 mb-3 bg-thatdark p-4" style="margin-left: 0.5em; margin-right: 0.5em;">
+                <h3><i class="fa-solid fa-piggy-bank"></i> Overall Profit</h3>
+                <hr>
+                <h5 class="text-theme" style="font-weight: 700;"><%= config.paymentSettings.currencySymbol %><%= Number(product.overallprofit).toLocaleString() %></h5>
+              </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <h1><code>Edit Product</code></h1>
+            <br>
+            <form action="/backend/update/product/<%= product.uniqueid %>" method="post" enctype="multipart/form-data">
+                <div class="row justify-content-center">
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-paper-plane"></i> Product Name</p>
+                      <input type="text" class="form-control darkinputcolor" name="productname" placeholder="Product name..." value="<%= product.name %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-link"></i> Product Link URL (/shop/<b>myproduct</b>)</p>
+                      <input type="text" class="form-control darkinputcolor" name="productlink" placeholder="Product link... (myproduct)" value="<%= product.link %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-sack-dollar"></i> Product Price</p>
+                      <input type="text" class="form-control darkinputcolor" name="productprice" placeholder="Product price... (19.99)" value="<%= product.price %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-location-dot"></i> Product Positioning</p>
+                      <input type="number" class="form-control darkinputcolor" name="productpos" placeholder="Product position... (14)" value="<%= product.pos %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-clipboard"></i> Product Description</p>
+                      <textarea class="form-control darkinputcolor" name="productdescription" placeholder="This is just an amazing product!" rows="7" required><%= product.description %></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-scroll"></i> Product Credits</p>
+                      <textarea class="form-control darkinputcolor" name="productcredits" placeholder="Hyperz#0001 - Creating the website!" rows="7" required><%= product.credits %></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-images"></i> Product Gallery (links separated by commas)</p>
+                      <textarea class="form-control darkinputcolor" name="productgallery" placeholder="http://example.com/image1.png, http://example.com/image2.png" rows="5" required><%= product.gallery %></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-file-zipper"></i> File Upload</p>
+                      <small>Featured Image (.PNG)</small>
+                      <input class="form-control darkinputcolor mb-2" type="file" accept="image/png" name="mainimage" id="formFile">
+                      <small>Product Download (.ZIP)</small>
+                      <input class="form-control darkinputcolor" type="file" name="productfile" id="formFile">
+                    </div>
+                  </div>
+                  <div class="col-lg-12 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-text-slash"></i> Price Crossout</p>
+                      <input type="text" class="form-control darkinputcolor" name="pricecrossout" placeholder="Crossed price... (24.99)" value="<%= product.pricecrossout %>">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-brands fa-discord"></i> Discord Customer Role</p>
+                      <input type="text" class="form-control darkinputcolor" name="productgivenrole" value="<%= product.givenrole %>" placeholder="Ex. 944065222245748809">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-spray-can-sparkles"></i> Demo Link</p>
+                      <input type="text" class="form-control darkinputcolor" name="demolink" value="<%= product.demolink %>" placeholder="https://example.com">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-code-fork"></i> Extension (<code>Product Unique Id</code>)</p>
+                      <input type="text" class="form-control darkinputcolor" name="extension" placeholder="Ex: 1847192375481284123" value="<%= product.extension %>">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-brands fa-ethereum"></i> Tebex Package (<code>Tebex Package Unique Id</code>)</p>
+                      <input type="text" class="form-control darkinputcolor" name="tebexpackageid" placeholder="Ex: 5977108">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-link"></i> Linked Items (<code>Unique Ids</code>) (comma separated)</p>
+                      <input type="text" class="form-control darkinputcolor" value="<%= product.linkeditems %>" name="linkeditems" placeholder="123456abcdef, 789123ghijkl, 456789mnopqr">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="mb-2"><i class="fa-solid fa-list-ol"></i> Quantity <% if(product.quantity == 0) {%><small class="text-warning">WARNING: Updating quantity will disable paused mode.</small><%};%></p>
+                      <input type="number" class="form-control darkinputcolor" value="<%= product.quantity %>" name="quantity" placeholder="Stock count... (-1 to disable)">
+                    </div>
+                  </div>
+                  <div class="col-lg-12 mt-4 mb-3">
+                    <div class="text-start">
+                      <h4 class="mb-3"><i class="fa-solid fa-tag"></i> Store Tags</h4>
+                      <div class="row justify-content-center">
+                      <% storetags.forEach(function(item) { %>
+                        <div class="col-lg-3 mb-3">
+                          <div class="bg-thatdark p-2" style="display: flex; border-radius: 0.4em;">
+                            <% if(product.storetags.includes(item.uniqueid)) { %>
+                              <input type="checkbox" name="checkbox[<%= item.uniqueid %>]" checked>
+                            <% } else { %>
+                              <input type="checkbox" name="checkbox[<%= item.uniqueid %>]">
+                            <% }; %>
+                            <p class="ms-2"><%= item.name %></p>
+                          </div>
+                        </div>
+                      <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <a href="/admin" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-theme">Save Product Changes</button>
+            </form>
+        </div>
+        <div class="container">
+          <br>
+          <hr>
+          <br>
+        </div>
+        <div class="container mb-5 bg-thatdark p-4 bd-theme">
+          <h1><code>Product Changelogs</code></h1>
+          <br>
+          <button type="button" class="btn btn-lg btn-theme mb-5" data-bs-toggle="modal" data-bs-target="#changelogCreateModal"><i class="fa-solid fa-newspaper"></i> Create Changelog</button>
+          <div class="modal fade" id="changelogCreateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content text-white bg-thatdark bd-theme">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-newspaper"></i> Create Changelog | <code><%= product.name %></code></h1>
+                  <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <form action="/backend/create/changelog/<%= product.uniqueid %>" method="post">
+                  <div class="modal-body">
+                    <div class="row justify-content-center text-start">
+                      <div class="col-lg-6 mb-3">
+                        <label for="title"><i class="fa-solid fa-book-bookmark"></i> Title</label>
+                        <input type="text" name="title" class="form-control darkinputcolor searchbox" placeholder="Changelog title..." required>
+                      </div>
+                      <div class="col-lg-6 mb-3">
+                        <label for="version"><i class="fa-solid fa-code-branch"></i> Version</label>
+                        <input type="text" name="version" class="form-control darkinputcolor searchbox" placeholder="Changelog version... (1.1.0)" required>
+                      </div>
+                      <div class="col-lg-12 mb-3">
+                        <label for="content"><i class="fa-solid fa-comment"></i> Description</label>
+                        <textarea name="content" class="form-control darkinputcolor searchbox" rows="10" placeholder="Changelog description..." required></textarea>
+                        <p class="text-center" style="font-size: 1.6em; margin-top: 0.2em;"><input class="form-check-input" type="checkbox" value="" name="sendnoti"> Send Notification</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-theme"><i class="fa-solid fa-newspaper"></i> Create Changelog</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <input type="text" class="form-control mb-3 darkinputcolor text-center searchbox" id="versionSearch" onkeyup="searchBar(1, 'versionSearch', 'changelogTable')" placeholder="Search a version #...">
+          <div class="customdiv">
+            <table class="table table-bordered border-white text-white" id="changelogTable">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Version</th>
+                  <th scope="col">Date/Time</th>
+                  <th scope="col">Unique Id</th>
+                  <th scope="col" class="text-end">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% changelogs.reverse().forEach(function(item) { %>
+                  <tr>
+                      <td><%= item.title %></td>
+                      <td><%= item.vers %></td>
+                      <td><%= item.datetime %></td>
+                      <td><%= item.uniqueid %></td>
+                      <td class="text-end"><a href="/changelog/<%= item.productid %>" class="text-theme">View</a> | <a href="/backend/delete/changelog/<%= item.uniqueid %>" class="text-danger">Delete</a></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+          function searchBar(position, bar, tbl) {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById(bar);
+            filter = input.value.toUpperCase();
+            table = document.getElementById(tbl);
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[position];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }
+            }
+          };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Credits - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Credits - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-start mb-5">
+            <h1 class="bigfont">Credits & Sources</h1>
+            <hr>
+            <br>
+            <p class="mb-3">This web environment was written with HTML/CSS on an ExpressJS/EJS backend by <a class="text-theme" href="https://github.com/itz-hyperz" target="_blank">ThatGuyHyperz</a>. The original backend format was created by ThatGuyHyperz for Hyperz Development's "Payment System" product. ThatGuyHyperz owns full rights & reseller to the backend of Payment System. The front-end design ui was made partially by ThatGuyHyperz. The product has been listed and is produced by Boss Software Systems.</p>
+            <p class="mb-3">The CSS library used is Bootstrap 5 with its relative JS component libraries for increased functionality. There are also a handful of node modules being used as-well. Additional credit is given to Xolify Development for help guiding ThatGuyHyperz through the stripe documentation and what the best course of action would be when building the original Payment System backend.</p>
+            <p class="mb-3">The development of this product was made possible by labor fees and expenses paid for by Justin @ Boss Software Systems. Full rights & ownership are to be under their decision entirely.</p>
+            <p class="mb-5">This product is actively available for purchase & is produced by <a class="text-theme" href="https://boss.software" target="_blank">Boss Software Systems</a>.</p>
+            <small class="mb-5 text-secondary bigfont">This page is not publicly listed anywhere navigation wise as an intent to be more-so of a disclaimer rather than a promotion article.</small>
+        </div>
+        <div class="mb-5 mt-3"><br></div>
+        <%- include('_footer') %>
+    </body>
+</html>

@@ -1,0 +1,315 @@
+<%
+    let currentImg = 0;
+    let currentImg2 = 0;
+    let currentImg3 = 0;
+    let currentImg4 = 0;
+%>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= product.name %> - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="<%= product.name %> - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta property="og:image" content="/images/product_<%= product.uniqueid %>.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= product.description %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= product.description %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container p-5 bg-thatdark bd-theme mb-5 productpagecontainer">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
+                  <% if(product.tebexpackageid != 'none') { %>
+                    <li class="breadcrumb-item"><a href="#"><i class="fa-brands fa-ethereum"></i></a></li>
+                  <% }; %>
+                  <% if(product.prodtype == 3) { %>
+                    <li class="breadcrumb-item" aria-current="page"><i class="fa-solid fa-box-open"></i></li>
+                  <% }; %>
+                  <li class="breadcrumb-item" aria-current="page"><%= product.name %></li>
+                </ol>
+            </nav>
+            <div class="row justify-content-center">
+                <div class="col-lg-5 mb-3 text-start">
+                    <img src="/images/product_<%= product.uniqueid %>.png" class="productfeat bg-theme mb-3" alt="product image" loading="lazy">
+                    <% if(product.subscription) { %>
+                        <p class="mb-2 text-theme bigfont">This product is subscription based.</p>
+                    <% }; %>
+                </div>
+                <div class="col-lg-7 mb-3 text-start">
+                    <h1 class="shopitemheader"><%= product.name %></h1>
+                    <% if(product.pricecrossout != 'none') { %>
+                        <h5 class="text-theme"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= product.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= product.price %></h5>
+                    <% } else { %>
+                        <h5 class="text-theme"><%= config.paymentSettings.currencySymbol %><%= product.price %></h5>
+                    <% }; %>
+                    <hr>
+                    <div class="row justify-content-start">
+                        <% if(product.demolink != 'none') { %>
+                            <div class="col-lg-12 mb-3">
+                                <a href="<%= product.demolink %>" class="btn shopitempaybuttontop btn-outline-theme" target="_blank"><%- sitesettings.demotext %></a>
+                            </div>
+                        <% }; %>
+                        <% if(!product.paused) { %>
+                            <div class="col-lg-12 mb-3">
+                                <% if(Number(product.price) > 0) { %>
+                                    <a href="/backend/addtocart/<%= product.uniqueid %>" class="btn btn-theme text-white shopitempaybuttontop"><i class="fa-solid fa-cart-shopping"></i> Add to Shopping Cart</a>
+                                <% } else { %>
+                                    <a href="/download/product/<%= product.uniqueid %>" class="btn btn-theme text-white shopitempaybuttontop"><i class="fa-solid fa-download"></i> Download Product</a>
+                                <% }; %>
+                            </div>
+                        <% } else { %>
+                            <div class="col-lg-12 mb-3">
+                                <h4 style="opacity: 0.9; margin-bottom: 1em;">This product is not currently being sold, or is out of stock...</h4>
+                            </div>
+                        <% }; %>
+                        <% if(product.prodtype != 3) { %>
+                            <div class="col-lg-12 mb-3">
+                                <a href="/changelog/<%= product.uniqueid %>" class="btn btn-theme text-white shopitempaybuttontop"><i class="fa-solid fa-eye"></i> View Product Changelog</a>
+                            </div>
+                        <% }; %>
+                        <% if(product.hidden && isStaff) { %>
+                            <div class="col-lg-12 mb-3">
+                                <h4 style="opacity: 0.9; margin-bottom: 1em;" class="text-warning">This product is hidden from store pages...</h4>
+                            </div>
+                        <% }; %>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6 mb-3">
+                    <div class="productdesc text-start">
+                        <%- product.description %>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="productdesc text-start">
+                        <% if(sitestyles.productcredits) { %>
+                            <h1>Credits</h1>
+                            <%- product.credits %>
+                        <% }; %>
+                    </div>
+                </div>
+                <% if(extensions) { %>
+                    <div class="col-lg-12 mb-3">
+                        <a href="/extensions/<%= product.uniqueid %>" class="btn btn-theme w-100 text-white"><i class="fa-solid fa-code-fork"></i> View Extensions</a>
+                    </div>
+                <% }; %>
+            </div>
+            <hr>
+            <% if(linkedItems[0]) { %>
+                <div class="container">
+                    <br>
+                    <h1>Related Products</h1>
+                    <p>Maybe you'll find something else you could use with <%= product.name %>!</p>
+                    <div class="row justify-content-center mt-5">
+                        <% linkedItems.forEach(function(item) { %>
+                            <div class="col-lg-6 mb-4 linkeditem">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 text-center">
+                                        <img src="/images/product_<%= item.uniqueid %>.png" class="linkeditemimage" alt="<%= item.name %> image">
+                                    </div>
+                                    <div class="col-lg-6 text-start">
+                                        <h3 class="linkeditemheader"><%= item.name %></h3>
+                                        <h5 class="linkeditemprice text-theme"><%= config.paymentSettings.currencySymbol %><%= item.price %></h5>
+                                        <a href="/backend/findproduct/<%= item.uniqueid %>" class="btn btn-theme text-white linkeditembutton mb-3"><i class="fa-solid fa-eye"></i> View Product</a>
+                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn btn-theme text-white linkeditembutton linkeditemcartbutton mb-3"><i class="fa-solid fa-cart-plus"></i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <br>
+                <hr>
+            <% }; %>
+            <% if(sitestyles.productreviews == 1) { %>
+                <div class="container">
+                    <br>
+                    <h1>Community Reviews</h1>
+                    <p>See what others have to say about our services!</p>
+                    <div class="row justify-content-center">
+                        <% reviews.forEach(function(review) { %>
+                            <% if(typeof review == 'undefined') return; %>
+                            <div class="col-lg-3 mb-3">
+                                <br>
+                                <a href="/review/<%= review.uniqueid %>" class="nohovereffecta" style="color: white !important;">
+                                    <div class="p-4 bg-thatdark bd-theme boxshadowlol" style="border-radius: 1em;">
+                                        <img src="/images/avatar_<%= review.userid %>.png" class="reviewlogo bg-theme bd-theme boxshadowlight" alt="user image" loading="lazy">
+                                        <div class="reviewstars">
+                                            <p>
+                                                <% if(review.rating <= 1) { %>
+                                                    <i class="fa-solid fa-star"></i>
+                                                <% } else if(review.rating == 2) { %>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                <% } else if(review.rating == 3) { %>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                <% } else if(review.rating == 4) { %>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                <% } else if(review.rating >= 5 ) { %>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                <% }; %>
+                                            </p>
+                                        </div>
+                                        <h2 class="reviewheader revheadhome"><%= review.username %></h2>
+                                        <hr>
+                                        <h6 class="reviewbody" style="text-decoration: underline;"><%= review.itemname %></h6>
+                                        <p class="reviewbody"><%= review.content.slice(0, 110) %>...</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <br>
+                <hr>
+            <% }; %>
+            <br>
+            <% if(sitestyles.productgallery == 1) { %>
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 mb-3">
+                        <h1>Gallery</h1>
+                        <hr>
+                        <div id="productCarouselMain" class="carousel slide productimagecarousel" data-bs-ride="true" loading="lazy">
+                            <div class="carousel-indicators">
+                                <% product.gallery.forEach(function(daImage) { %>
+                                    <% if(currentImg == 0) { %>
+                                        <button type="button" data-bs-target="#productCarouselMain" class="active" data-bs-slide-to="<%= currentImg %>"></button>
+                                    <% } else { %>
+                                        <button type="button" data-bs-target="#productCarouselMain" data-bs-slide-to="<%= currentImg %>"></button>
+                                    <% }; %>
+                                    <% currentImg = currentImg + 1; %>
+                                <% }); %>
+                            </div>
+                            <div class="carousel-inner">
+                                <button type="button" class="btnnostyle" data-bs-toggle="modal" data-bs-target="#productSlideshowModal">
+                                    <% product.gallery.forEach(function(daImage) { %>
+                                        <% if(currentImg2 == 0) { %>
+                                            <div class="carousel-item active">
+                                                <img src="<%= daImage %>" class="productSlideshowImage" alt="product gallery image" loading="lazy">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h5 class="text-theme" style="font-weight: 700;">Click to enlarge</h5>
+                                                </div>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="carousel-item">
+                                                <img src="<%= daImage %>" class="productSlideshowImage" alt="product gallery image" loading="lazy">
+                                            </div>
+                                        <% }; %>
+                                        <% currentImg2 = currentImg2 + 1; %>
+                                    <% }); %>
+                                </button>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarouselMain" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#productCarouselMain" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            <% } else if(sitestyles.productgallery == 2) { %>
+                <h1>Product Gallery</h1>
+                <br>
+                <div id="gallery" class="gallery">
+                    <% product.gallery.forEach(function(daImage) { %>
+                        <a href="<%= daImage %>" target="_blank">
+                            <img src="<%= daImage %>" alt="product gallery image" loading="lazy">
+                        </a>
+                    <% }); %>
+                </div>
+            <% }; %>
+            <div class="row justify-content-center">
+                <% if(isStaff) { %>
+                    <hr>
+                    <div class="col-12 mb-3 text-end">
+                        <a href="/backend/product/togglehide/<%= product.uniqueid %>" class="btn btn-warning text-white w-100"><i class="fa-solid fa-eye-slash"></i> Toggle Hidden</a>
+                    </div>
+                    <div class="col-12 mb-3 text-center">
+                        <a href="/backend/product/togglepause/<%= product.uniqueid %>" class="btn btn-danger text-white w-100"><i class="fa-solid fa-shop-slash"></i> Toggle Pause</a>
+                    </div>
+                    <div class="col-12 mb-3 text-center">
+                        <a href="/backend/product/togglefeat/<%= product.uniqueid %>" class="btn btn-success text-white w-100"><i class="fa-solid fa-shop-slash"></i> Toggle Featured</a>
+                    </div>
+                    <div class="col-12 mb-3 text-start">
+                        <a href="/admin/editproduct/<%= product.uniqueid %>" class="btn btn-primary text-white w-100"><i class="fa-solid fa-feather"></i> Alter Product</a>
+                    </div>
+                <% } else { %>
+                    <div class="mb-5"></div>
+                <% }; %>
+            </div>
+            <!-- MODAL STARTS HERE -->
+            <div class="modal fade" id="productSlideshowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" loading="lazy">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel"><%= product.name %> Gallery</h1>
+                      <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="carouselExampleIndicatorsModal" class="carousel slide productimagecarouselmodal" data-bs-ride="true" loading="lazy">
+                            <div class="carousel-indicators">
+                                <% product.gallery.forEach(function(daImage) { %>
+                                    <% if(currentImg3 == 0) { %>
+                                        <button type="button" data-bs-target="#carouselExampleIndicatorsModal" class="active" data-bs-slide-to="<%= currentImg3 %>"></button>
+                                    <% } else { %>
+                                        <button type="button" data-bs-target="#carouselExampleIndicatorsModal" data-bs-slide-to="<%= currentImg3 %>"></button>
+                                    <% }; %>
+                                    <% currentImg3 = currentImg3 + 1; %>
+                                <% }); %>
+                            </div>
+                            <div class="carousel-inner">
+                                <% product.gallery.forEach(function(daImage) { %>
+                                    <% if(currentImg4 == 0) { %>
+                                        <div class="carousel-item active">
+                                            <img src="<%= daImage %>" class="productSlideshowImageModal" alt="product gallery image" loading="lazy">
+                                        </div>
+                                    <% } else { %>
+                                        <div class="carousel-item">
+                                            <img src="<%= daImage %>" class="productSlideshowImageModal" alt="product gallery image" loading="lazy">
+                                        </div>
+                                    <% }; %>
+                                    <% currentImg4 = currentImg4 + 1; %>
+                                <% }); %>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicatorsModal" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicatorsModal" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-theme" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <!-- MODAL ENDS HERE -->
+        </div>
+        <br>
+        <br>
+        <%- include('_footer') %>
+    </body>
+</html>

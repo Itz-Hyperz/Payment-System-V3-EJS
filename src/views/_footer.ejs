@@ -1,0 +1,135 @@
+<!-- RANDOM ADVERTISEMENT START -->
+<% if(randomad != 'none') { %>
+    <div class="container">
+        <a href="<%= randomad.link %>" target="_blank">
+            <img src="/images/advertisement_<%= randomad.uniqueid %>.<%= randomad.filetype %>" class="footeradvertisement bd-theme" alt="random advertisement image" loading="lazy">
+        </a>
+    </div>
+    <br>
+<% }; %>
+<!-- RANDOM ADVERTISEMENT END -->
+<!-- FOOTER START -->
+<div class="footerimage bg-thatdark">
+    <div class="container-fluid">
+        <div class="row justify-content-center text-start">
+            <div class="col-lg-4 footercolumnscentermobile">
+                <h3 class="bigfont mt-5 mb-3"><%= sitesettings.sitename %></h3>
+                <p class="footerdescone mb-5"><%= sitesettings.sitedesc %></p>
+                <small>Copyright &copy; <%= currentyear %> <%= sitesettings.sitename %> - All rights reserved.</small>
+                <div class="mt-4">
+                    <% if(sitesettings.email != 'none') { %>
+                        <a class="socialicon" href="mailto:<%= sitesettings.email %>"><i class="fa-solid fa-envelope"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.phonenumber != 'none') { %>
+                        <a class="socialicon" href="tel:<%= sitesettings.phonenumber %>"><i class="fa-solid fa-phone"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.twitter != 'none') { %>
+                        <a class="socialicon" href="https://twitter.com/<%= sitesettings.twitter %>" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.discord != 'none') { %>
+                        <a class="socialicon" href="<%= sitesettings.discord %>" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.youtube != 'none') { %>
+                        <a class="socialicon" href="<%= sitesettings.youtube %>" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.instagram != 'none') { %>
+                        <a class="socialicon" href="https://instagram.com/<%= sitesettings.instagram %>" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.facebook != 'none') { %>
+                        <a class="socialicon" href="<%= sitesettings.facebook %>" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.tiktok != 'none') { %>
+                        <a class="socialicon" href="https://tiktok.com/@<%= sitesettings.tiktok %>" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <% }; %>
+                    <% if(sitesettings.linkedin != 'none') { %>
+                        <a class="socialicon" href="<%= sitesettings.linkedin %>" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <% }; %>
+                </div>
+            </div>
+            <% if(sitestyles.footnavigation) { %>
+                <div class="col-lg-2 footercolumnscentermobile">
+                    <p class="footerheaderone">Navigation</p>
+                    <p class="footeritemone"><a href="/">Home</a></p>
+                    <p class="footeritemone"><a href="/shop">Shopping</a></p>
+                    <p class="footeritemone"><a href="/reviews">Reviews</a></p>
+                    <p class="footeritemone"><a href="/account">Account</a></p>
+                </div>
+            <% }; %>
+            <% if(sitestyles.footusefullinks) { %>
+                <div class="col-lg-2 footercolumnscentermobile">
+                    <p class="footerheaderone">Useful Links</p>
+                    <p class="footeritemone"><a href="/giftcards">Gift Cards</a></p>
+                    <p class="footeritemone"><a href="/discord">Our Discord</a></p>
+                    <p class="footeritemone"><a href="/faq">FAQs</a></p>
+                </div>
+            <% }; %>
+            <% if(sitestyles.footourpartners) { %>
+                <div class="col-lg-2 footercolumnscentermobile">
+                    <p class="footerheaderone">Our Partners</p>
+                    <% partners.forEach(function(item) { %>
+                        <p class="footeritemone"><a href="<%= item.link %>"><%= item.title %></a></p>
+                <% }); %>
+                </div>
+            <% }; %>
+            <% if(sitestyles.footlegal) { %>
+                <div class="col-lg-2 footercolumnscentermobile">
+                    <p class="footerheaderone">Legal</p>
+                    <p class="footeritemone"><a href="/tos">Terms of Service</a></p>
+                    <p class="footeritemone"><a href="/privacy">Privacy Policy</a></p>
+                    <p class="footeritemone"><a href="/cookies">Cookie Policy</a></p>
+                </div>
+            <% }; %>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 mt-4 footercolumnscentermobile text-start">
+                <p style="font-size: smaller;" class="mt-3"><span class="colortfouttathatbruh bigfont">Servicing Areas:</span> <a href="/page/website-design-petoskey-mi">Petoskey</a>, <a href="/page/website-design-harbor-springs-mi">Harbor Springs</a>, <a href="/page/website-design-boyne-city-mi">Boyne City</a>, <a href="/page/website-design-traverse-city-mi">Traverse City</a>, <a href="/page/website-design-atlanta-mi">Atlanta</a>, <a href="/page/website-design-cheboygan-mi">Cheboygan</a>, <a href="/page/website-design-gaylord-mi">Gaylord</a>, <a href="/page/website-design-alanson-mi">Alanson</a></p>
+            </div>
+            <div class="col-lg-4 mt-4 footercolumnscentermobile text-end">
+                <p style="font-size: smaller;" class="mt-3 bigfont">Produced by <a href="https://boss.software" class="text-theme" target="_blank">Boss Software Systems</a> & <a href="https://github.com/itz-hyperz" class="text-theme" target="_blank">ThatGuyHyperz</a></p>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- FOOTER END -->
+<!-- COOKIE NOTICE START
+<div class="cookiething">
+    <div class="row justify-content-center text-start">
+        <div class="col-lg-10 footercolumnscentermobile">
+            <div class="row justify-content-center">
+                <div class="col-1">
+                    <p class="cookieicon mt-2">🍪</p>
+                </div>
+                <div class="col-11">
+                    <p class="mt-2"><b>This site uses cookies to store and access device information, account information, and agreements.</b> Withdrawing consent to store this information may result in a loss of certain features and functions. You can read our cookie policy <a href="/cookies" class="text-white" style="text-decoration: underline;">here</a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 text-end footercolumnscentermobile">
+            <a href="/nocookies" class="btn btn-lg mt-3 text-white morrisbutton">Decline</a>
+            <button type="button" class="btn mt-3 btn-lg btn-theme morrisbutton" id="liveToastBtn">Allow</button>
+        </div>
+    </div>
+</div>
+<script>
+    const cookieBox = document.querySelector('.cookiething'),
+    acceptBtn = cookieBox.querySelector('button');
+    acceptBtn.onclick = () => {
+        document.cookie = "CookieAccepted=OneMonth; max-age="+60*60*24*30;
+        if(document.cookie) {
+            cookieBox.classList.remove("cookieshow");
+        };
+    };
+    let checkCookie = document.cookie.indexOf("CookieAccepted=OneMonth");
+    if(checkCookie == 0) {
+        consolel.log('a')
+        cookieBox.classList.remove("cookieshow")
+    } else {
+        console.log('b')
+        cookieBox.classList.add("cookieshow")
+    };
+</script>
+COOKIE NOTICE END -->
+<% if(sitesettings.tawkto != 'none') { %>
+    <%- sitesettings.tawkto %>
+<% }; %>

@@ -1,0 +1,62 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Support - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Support - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 text-center">
+                <div class="adminareacol">
+                    <%- include('supportButtons') %>
+                </div>
+            </div>
+            <div class="col-lg-10 mt-5 mb-3 p-4 text-start">
+                <div class="adminareacol">
+                    <h1><i class="fa-solid fa-eye"></i> Your Tickets</h1>
+                    <hr>
+                    <input type="text" class="form-control mb-3 darkinputcolor text-start searchbox" id="ticketSearch" onkeyup="searchBar(1, 'ticketSearch', 'ticketsTable')" placeholder="Search a Ticket Title...">
+                    <div id="ticketsTable" class="customDiv2">
+                        <table class="table table-bordered border-white text-white">
+                          <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Title</th>
+                              <th scope="col">Category</th>
+                              <th scope="col">Date / Time</th>
+                              <th scope="col">Answered</th>
+                              <th scope="col" class="text-end">Options</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% tickets.sort((a, b) => { return (isNaN(b.answerid) - isNaN(a.answerid)) }).forEach(function(item) { %>
+                              <tr>
+                                  <td><%- item.id %></td>
+                                  <td><%- item.title %></td>
+                                  <td><%- item.category %></td>
+                                  <td><%- item.datecreated %></td>
+                                  <% if(item.answerid == 'na') { %>
+                                    <td><span class="text-danger">Unanswered</span></td>
+                                  <% } else { %>
+                                    <td><span class="text-success">Answered</span></td>
+                                  <% }; %>
+                                  <td class="text-end"><a href="/support/ticket/<%= item.id %>" class="btn btn-theme btn-sm">View Ticket</a></td>
+                              </tr>
+                            <% }); %>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

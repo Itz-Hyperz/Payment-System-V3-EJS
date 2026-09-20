@@ -1,0 +1,636 @@
+<%
+    let daBoxStyle = "bg-thatdark boxshadowlight productbox bd-theme";
+    let daButtonStyle = "btn-theme";
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Shop - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Shop - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <% if(sitestyles.bgshoptoggle) { %>
+            <style>
+                body {
+                    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.5) !important;
+                    background-image: url('../../assets/headerimage.jpg') !important;
+                    height: 100% !important;
+                    background-repeat: no-repeat !important;
+                    background-size: cover !important;
+                    background-position: center center !important;
+                }
+            </style>
+        <% }; %>
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="row justify-content-center accountpageparent mb-5">
+            <div class="col-lg-3 mb-3">
+                <div class="bg-thatdark p-4" style="border-radius: 0.5em;">
+                    <h4 class="mb-3 text-start bigfont">Search <span class="text-theme">Products</span></h4>
+                    <form action="/search" method="post">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-start mb-3">
+                                <input type="text" class="form-control searchbox w-100" name="search" placeholder="Search..." required>
+                            </div>
+                            <div class="col-lg-4 text-end mb-3">
+                                <button class="btn btn-theme w-100" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <% if(featprods.length > 0) { %>
+                        <h4 class="mb-3 mt-4 text-start bigfont desktop">View <span class="text-theme">Featured</span></h4>
+                        <div class="row justify-content-center desktop">
+                            <% featprods.forEach(function(item) { %>
+                                <div class="col-lg-12 mb-3">
+                                    <div class="innerFeatProduct">
+                                        <a href="/backend/findproduct/<%= item.uniqueid %>">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-3 mb-2 text-start">
+                                                    <img src="/images/product_<%= item.uniqueid %>.png" class="featprodimagemainsmall">
+                                                </div>
+                                                <div class="col-lg-9 mb-2 text-start">
+                                                    <h6><%= item.name %></h6>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-5">
+                                                            <h5 class="text-theme"><%= config.paymentSettings.currencySymbol %><%= item.price %></h5>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <p>
+                                                                <% if(item.reviewAverage < 1) { %>
+                                                                    <small class="bigfont text-secondary">Not yet rated...</small>
+                                                                <% } else if(item.reviewAverage == 1) { %>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                <% } else if(item.reviewAverage == 2) { %>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                <% } else if(item.reviewAverage == 3) { %>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                <% } else if(item.reviewAverage == 4) { %>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-regular fa-star"></i>
+                                                                <% } else if(item.reviewAverage >= 5 ) { %>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                <% }; %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.shopsorting) { %>
+                        <h4 class="mb-3 mt-4 text-start bigfont">Sorting <span class="text-theme">Options</span></h4>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsDefault')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-tag"></i> Default</button>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsRandom')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-shuffle"></i> Random</button>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsNameAsc')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-arrow-up"></i> Name</button>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsPriceH2L')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-arrow-up"></i> Price</button>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsNameDesc')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-arrow-down"></i> Name</button>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <button onclick="switchProductDisplay('productsPriceL2H')" class="btn btn-theme sortingbuttonsshop w-100"><i class="fa-solid fa-arrow-down"></i> Price</button>
+                            </div>
+                            <% if(storetags.length > 0) { %>
+                                <h4 class="mb-3 mt-4 text-start bigfont">Sorting <span class="text-theme">Tags</span></h4>
+                                <% storetags.forEach(function(item) { %>
+                                    <div class="col-lg-12 mb-2">
+                                        <a href="/searchtag/<%= item.uniqueid %>" class="btn btn-outline-theme sortingbuttonsshop w-100"><i class="fa-solid fa-tag"></i> <%= item.name %></a>
+                                    </div>
+                                <% }); %>
+                            <% }; %>
+                        </div>
+                    <% }; %>
+                </div>
+            </div>
+            <div class="col-lg-9 mb-3">
+                <% if(products.length < 1) { %>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12 p-5">
+                            <h5 class="text-center bigfont text-secondary">There are currently no available products...</h5>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="row justify-content-start" style="display: flex;" id="productsDefault">
+                        <% products.sort((a, b) => { return a.pos - b.pos; }).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="row justify-content-start" style="display: none;" id="productsRandom">
+                        <% products.sort(() =>  Math.random() - 0.5 ).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="row justify-content-start" style="display: none;" id="productsPriceL2H">
+                        <% products.sort((a, b) => { return Number(a.price) - Number(b.price); }).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="row justify-content-start" style="display: none;" id="productsPriceH2L">
+                        <% products.sort((a, b) => { return Number(b.price) - Number(a.price); }).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="row justify-content-start" style="display: none;" id="productsNameAsc">
+                        <% products.sort((a, b) => { return a.name.localeCompare(b.name); }).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="row justify-content-start" style="display: none;" id="productsNameDesc">
+                        <% products.sort((a, b) => { return b.name.localeCompare(a.name); }).forEach(function(item) { %>
+                            <div class="col-lg-3">
+                                <div class="<%= daBoxStyle %>">
+                                    <% if(item.isCategory) { %>
+                                        <img src="/images/storecat_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                        <p class="text-start producttitlelist"><%= item.name %></p>
+                                        <p class="text-start mt-4 productpricelist">Click to view all products.</p>
+                                        <hr>
+                                        <a href="/shop/<%= item.link %>" class="btn btn-lg <%= daButtonStyle %> productbuttonlist"><i class="fa-solid fa-eye"></i> View Category</a>
+                                    <% } else { %>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 mb-2">
+                                                <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                            </div>
+                                            <div class="col-lg-7 text-start mb-4">
+                                                <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                            </div>
+                                            <div class="col-lg-5 mb-4">
+                                                <small>
+                                                    <% if(item.reviewAverage < 1) { %>
+                                                        <small class="bigfont text-secondary">Not yet rated...</small>
+                                                    <% } else if(item.reviewAverage == 1) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 2) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 3) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage == 4) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                    <% } else if(item.reviewAverage >= 5 ) { %>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    <% }; %>
+                                                </small>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(item.pricecrossout != 'none') { %>
+                                                    <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% } else { %>
+                                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                                <% }; %>
+                                            </div>
+                                            <div class="col-lg-6 mb-2">
+                                                <% if(!item.paused) { %>
+                                                    <% if(Number(item.price) > 0) { %>
+                                                        <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                                    <% } else { %>
+                                                        <a href="/download/product/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                                    <% }; %>
+                                                <% }; %>
+                                            </div>
+                                        </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% }; %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+            function switchProductDisplay(prodId) {
+                var productsDefault = document.getElementById('productsDefault');
+                var productsRandom = document.getElementById('productsRandom');
+                var productsPriceL2H = document.getElementById('productsPriceL2H');
+                var productsPriceH2L = document.getElementById('productsPriceH2L');
+                var productsNameAsc = document.getElementById('productsNameAsc');
+                var productsNameDesc = document.getElementById('productsNameDesc');
+                var el = document.getElementById(prodId);
+                productsDefault.style.display = "none";
+                productsRandom.style.display = "none";
+                productsPriceL2H.style.display = "none";
+                productsPriceH2L.style.display = "none";
+                productsNameAsc.style.display = "none";
+                productsNameDesc.style.display = "none";
+                el.style.display = "flex";
+            };
+        </script>
+    </body>
+</html>

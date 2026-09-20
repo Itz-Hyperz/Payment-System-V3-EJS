@@ -1,0 +1,71 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= review.username %>'s Review</title>
+        <meta property="og:title" content="<%= review.username %>'s Review" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= review.content %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= review.content %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container">
+            <div class="text-start">
+                <h2 class="bigfont"><%= review.username %>'s Review</h2>
+                <hr>
+            </div>
+            <br>
+            <div class="p-4 bg-thatdark bd-theme" style="border-radius: 1em;">
+                <img src="/images/avatar_<%= review.userid %>.png" class="reviewlogo bg-theme bd-theme boxshadowlight" alt="user image" loading="lazy">
+                <div class="reviewstars">
+                    <p>
+                        <% if(review.rating <= 1) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        <% } else if(review.rating == 2) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        <% } else if(review.rating == 3) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        <% } else if(review.rating == 4) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        <% } else if(review.rating >= 5 ) { %>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        <% }; %>
+                    </p>
+                </div>
+                <h2 class="reviewheader"><%= review.username %></h2>
+                <hr>
+                <h6 class="reviewbody" style="text-decoration: underline;"><%= review.itemname %></h6>
+                <p class="reviewbody"><%= review.content %></p>
+            </div>
+        </div>
+        <br>
+        <a href="/reviews" class="btn btn-lg btn-theme mb-5"><i class="fa-solid fa-star"></i> View Reviews</a>
+        <a href="/backend/findproduct/<%= review.itemuniqueid || 'back' %>" class="btn btn-lg btn-theme mb-5"><i class="fa-solid fa-eye"></i> View Product</a>
+        <br>
+        <%- include('_footer') %>
+    </body>
+</html>

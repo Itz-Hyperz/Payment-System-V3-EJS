@@ -1,0 +1,60 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Commissions - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Commissions - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container p-2 mb-5 mt-5">
+            <h1 class="bigfont text-start mb-3">Looking for a <span class="underline-theme">commission</span>?</h1>
+            <h5 class="text-start text-theme">Look no further!</h5>
+            <hr>
+            <h3 class="bigfont mt-5 mb-5">Getting a commission is as easy as <span class="text-theme">1,2,3</span>! Just follow these steps!</h3>
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg-4 mb-3">
+                    <div class="p-3">
+                        <div class="bg-theme mb-3 piciconhome">
+                            <h1 class="bigfont">#1</h1>
+                        </div>
+                        <div class="statdata mb-3">
+                            <h2>Create A Ticket</h2>
+                            <p>Start by creating a ticket in our Discord server! Our staff can assist you from there!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="p-3">
+                        <div class="bg-theme mb-3 piciconhome">
+                            <h1 class="bigfont">#2</h1>
+                        </div>
+                        <div class="statdata mb-3">
+                            <h2>Recieve A Quote</h2>
+                            <p>Describe what you're looking for and get a quote! This will be the plan for your project!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="p-3">
+                        <div class="bg-theme mb-3 piciconhome">
+                            <h1 class="bigfont">#3</h1>
+                        </div>
+                        <div class="statdata mb-3">
+                            <h2>Start Your Order</h2>
+                            <p>Let's get things wrapped up and rolling! We will develop your project for you!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mb-3">Have any un-answered questions? Review our <a href="/faq" class="text-theme">FAQ Page</a> for more information, or <a href="/discord" class="text-theme">open a ticket</a> today!</p>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

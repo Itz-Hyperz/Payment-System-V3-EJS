@@ -1,0 +1,45 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rules - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Rules - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container bg-thatdark bd-theme borderradius text-center p-4 mt-5 mb-5 homecolumnfirsthr">
+            <h1><%= application.name %></h1>
+            <hr>
+            <div class="customDiv">
+                <table class="table table-bordered border-white text-white">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">User</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="text-end">Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% responses.forEach(function(item) { %>
+                      <tr>
+                          <td><%- item.id %></td>
+                          <td><%- item.user %></td>
+                          <td><%- item.status %></td>
+                          <td class="text-end"><a href="/view/application/<%= item.id %>" class="text-primary">View</a> | <a href="/backend/delete/submission/<%= item.id %>" class="text-danger">Delete</a></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

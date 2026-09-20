@@ -1,0 +1,135 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Migration Process...</title>
+        <link rel="icon" href="/assets/logo.png">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo:ital@1&family=Montserrat:wght@500&family=Source+Code+Pro:wght@200;300&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script>console.log('EJS template made by Hyperz#0001');</script>
+
+        <!-- Custom Styling & Scripts -->
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
+        <% if(typeof siteColor != 'undefined') { %>
+            <style>
+                .justThisButtonLol {
+                    background-color: <%= siteColor %> !important;
+                }
+                .justThisTextLol {
+                    color: <%= siteColor %> !important;
+                }
+            </style>
+        <% }; %>
+    </head>
+    <body>
+        <div class="container p-4">
+            <h3 id="migrationTitleStart"><div class="spinner-border text-primary justThisTextLol" role="status"><span class="visually-hidden">Loading...</span></div> Migration Processing...</h3>
+            <br>
+            <div class="container">
+                <div class="progress" id="barbox">
+                    <div class="progress-bar justThisButtonLol" role="progressbar" id="mpbarlol"></div>
+                </div>
+                <% if(typeof shopItems != 'undefined') { %>
+                    <h3 class="text-warning" style="visibility: hidden; display: none;" id="pendingAction">Pending Action...</h3>
+                <% } else { %>
+                    <h3 class="text-success justThisTextLol" style="visibility: hidden; display: none;" id="pendingAction">Migration Complete <i class="fa-solid fa-face-smile"></i></h3>
+                <% }; %>
+                <br>
+                <hr>
+                <br>
+                <div class="simplyJustDontDisplayThisAfterLol">
+                    <h4><code>Live Updates</code></h4>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_0"><i class="fa-solid fa-gear"></i> Site Settings Updated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_1"><i class="fa-solid fa-bag-shopping"></i> FaxStore Products Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_2"><i class="fa-solid fa-briefcase"></i> All Owned Items Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_3"><i class="fa-solid fa-users"></i> All Accounts Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_4"><i class="fa-solid fa-percent"></i> All Discounts Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_5"><i class="fa-solid fa-file-lines"></i> All Receipts Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_6"><i class="fa-solid fa-star"></i> All Reviews Migrated...</p>
+                    <p class="mb-2" style="visibility: hidden; display: none;" id="progressItem_7"><i class="fa-solid fa-newspaper"></i> All Static Pages Migrated...</p>
+                    <p class="mb-2 text-warning" style="visibility: hidden; display: none;" id="progressItem_8"><i class="fa-solid fa-pen-to-square"></i> Saving Changes...</p>
+                    <p class="mb-2 text-success" style="visibility: hidden; display: none;" id="progressItem_9"><i class="fa-solid fa-circle-check"></i> All Changes Saved!</p>
+                </div>
+                <div style="visibility: hidden; display: none;" id="MakeupProds">
+                    <br>
+                    <hr>
+                    <br>
+                    <h2 style="font-weight: 700;">Product File Uploads</h2>
+                    <form action="/backend/completemigration/fileuploads/faxstore" method="post" enctype="multipart/form-data">
+                        <div class="row justify-content-center">
+                            <% if(typeof shopItems != 'undefined') { %>
+                                <% shopItems.forEach(function(item) { %>
+                                    <div class="col-lg-3 bg-dark migrationColumnLol">
+                                        <img src="/images/product_<%= item.uniqueid %>.png" class="migrationProdImage" alt="<%= item.name %>">
+                                        <h3 style="font-weight: 700; margin-bottom: 0.5em;"><%= item.name %></h3>
+                                        <p class="censored" style="font-size: 0.8em; margin-bottom: 0.5em;"><%= item.uniqueid %></p>
+                                        <input class="form-control darkinputcolor" type="file" accept=".zip" name="<%= item.uniqueid %>" id="formFile" required>
+                                    </div>
+                                <% }); %>
+                            <% } else { %>
+                                <h4>No items to resolve, please press the button below to continue...</h4>
+                                <br>
+                                <a href="/admin" class="btn btn-lg btn-success justThisButtonLol" style="width: 30%; margin-left: auto; margin-right: auto; margin-top: 1em;"><i class="fa-solid fa-house-chimney"></i> Return Home</a>
+                            <% }; %>
+                        </div>
+                        <br>
+                        <% if(typeof shopItems != 'undefined') { %>
+                            <button type="submit" class="btn btn-lg btn-dark justThisButtonLol"><i class="fa-solid fa-upload"></i> Upload Selected Files</button>
+                        <% }; %>
+                    </form>
+                </div>
+                <br>
+                <hr>
+                <p style="opacity: 0.9;"><em>Leaving this page will <span style="color: red;">not</span> stop the migration!</em></p>
+            </div>
+            <br>
+        </div>
+        <script>
+            var start = 0;
+            var step = 0;
+            var isUndef = '<%= typeof shopItems %>';
+            var pendingAction = document.getElementById('pendingAction');
+            var MakeupProds = document.getElementById('MakeupProds');
+            var barbox = document.getElementById('barbox');
+            var daBar = document.getElementById('mpbarlol');
+            daBar.style.width = `${start}%`;
+            setTimeout(function() {
+                start = start + 10;
+                daBar.style.width = `${start}%`;
+                var getitLol = document.getElementById(`progressItem_${step}`);
+                getitLol.style.visibility = 'visible';
+                getitLol.style.display = 'block';
+            }, 1000);
+            setInterval(function() {
+                if(start < 100) {
+                    start = start + 10;
+                    daBar.style.width = `${start}%`;
+                    step = step + 1;
+                    var getitLol = document.getElementById(`progressItem_${step}`);
+                    getitLol.style.visibility = 'visible';
+                    getitLol.style.display = 'block';
+                } else {
+                    barbox.style.visibility = `hidden`;
+                    barbox.style.display = `none`;
+                    pendingAction.style.visibility = 'visible';
+                    pendingAction.style.display = 'block';
+                    MakeupProds.style.visibility = 'visible';
+                    MakeupProds.style.display = 'block';
+                    if(isUndef == 'undefined') {
+                        var titleStart = document.getElementById('migrationTitleStart');
+                        titleStart.style.visibility = `hidden`;
+                        titleStart.style.display = `none`;
+                    };
+                };
+            }, 3000);
+        </script>
+    </body>
+</html>

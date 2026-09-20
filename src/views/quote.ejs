@@ -1,0 +1,153 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Quote - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Quote - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo:ital@1&family=Montserrat:wght@500&family=Source+Code+Pro:wght@200;300&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script>console.log('EJS template made by Hyperz#0001');</script>
+
+        <!-- Custom Styling & Scripts -->
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
+
+        <style>
+            a:hover {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            .bg-theme {
+                background-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .bd-theme {
+                border-style: solid;
+                border-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .text-theme {
+                color: <%= sitesettings.sitecolor %> !important;
+            }
+            .btn-theme {
+            color: white;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-theme:hover {
+            border-color: <%= sitesettings.sitecolor %>;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme {
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme:hover {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .form-check-input:checked {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .productpagecontainer a {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            .quoteTable thead tr th {
+                background-color: <%= sitesettings.sitecolor %> !important;
+            }
+            /* Highlight Stuffs */
+            ::selection {
+                background: <%= sitesettings.sitecolor %>; /* WebKit/Blink Browsers */
+            }
+            ::-moz-selection {
+                background: <%= sitesettings.sitecolor %>; /* Gecko Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <br>
+        <br>
+        <div class="container text-start bg-dark boxshadowlol receiptbox bd-theme">
+            <div class="row justify-content-center">
+                <div class="col-12 text-start">
+                    <h1 style="font-weight: 700;"><i class="fa-solid fa-cubes"></i> Quote System</h1>
+                    <h3 class="text-theme"><i class="fa-solid fa-user"></i> <code><%= quote.userid %></code></h3>
+                </div>
+            </div>
+            <hr>
+            <h1><%= quote.name %></h1>
+            <p class="mb-4"><%= quote.description %></p>
+            <div class="customDiv quoteParentDiv">
+                <table class="table table-bordered border-gray text-white quoteTable">
+                    <thead>
+                        <tr>
+                            <th scope="col"><p style="text-decoration: underline;">Name</p></th>
+                            <th scope="col"><p style="text-decoration: underline;">Description</p></th>
+                            <th scope="col"><p style="text-decoration: underline;">Price</p></th>
+                            <% if(staff) { %>
+                                <th scope="col" class="text-end"><p style="text-decoration: underline;">Options</p></th>
+                            <% }; %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% quoteitems.forEach(function(item) { %>
+                            <tr>
+                                <td><%= item.name %></td>
+                                <td><%= item.description %></td>
+                                <td><%= config.paymentSettings.currencySymbol %><%= item.price %></td>
+                                <% if(staff) { %>
+                                    <td class="text-end"><a href="/backend/delete/quoteitem/<%= quote.uniqueid %>/<%= item.uniqueid %>" class="text-theme">Delete</a></td>
+                                <% }; %>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% if(staff) { %>
+                <br>
+                <hr>
+                <div class="text-center">
+                    <h4 class="text-theme mb-3" style="font-weight: 700;"><i class="fa-solid fa-shield-halved"></i> Item Creator</h4>
+                    <form action="/backend/create/quoteitem/<%= quote.uniqueid %>" method="post">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 mb-3">
+                              <div class="text-start">
+                                <p><i class="fa-solid fa-paper-plane"></i> Item Name</p>
+                                <input type="text" class="form-control darkinputcolor" name="name" placeholder="Quote item name..." required>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="text-start">
+                                  <p><i class="fa-solid fa-tag"></i> Item Price</p>
+                                  <input type="text" class="form-control darkinputcolor" name="price" placeholder="Quote item price..." required>
+                                </div>
+                              </div>
+                            <div class="col-lg-12 mb-3">
+                              <div class="text-start">
+                                <p><i class="fa-solid fa-list"></i> Item Description</p>
+                                <textarea class="form-control darkinputcolor" name="description" placeholder="Quote item description..." rows="7" required></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        <button type="submit" class="btn btn-theme w-100"><i class="fa-solid fa-cubes"></i> Create Quote Item</button>
+                    </form>
+                </div>
+            <% }; %>
+            <hr>
+            <a href="/account" class="btn btn-theme">View Account</a>
+        </div>
+        <br>
+        <br>
+        <br>
+    </body>
+</html>

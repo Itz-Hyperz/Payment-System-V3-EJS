@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= page.title %> | <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="<%= page.title %> | <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= page.content %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= page.content %>" />
+        <%
+            if(page.title.startsWith('Website Design in ')) {
+                let splittext = page.title.split("in ")[1]; // Location ("Website Design in Petoskey, MI" for example) SCHEMA IS IMPORTANT!!!!
+        %>
+            <script type="application/ld+json">
+                {
+                "@context":"https://schema.org",
+                "@type":"Service",
+                "name":"Website Design",
+                "areaServed":"<%= splittext %>"
+                }
+            </script>
+        <% }; %>
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-start mb-5 custompagesmaindiv">
+            <h1 class="bigfont colortfouttathatbruh"><%= page.title %></h1>
+            <hr>
+            <%- converted %>
+        </div>
+        <% if(isStaff) { %>
+            <br>
+            <div class="container text-start mb-5">
+                <hr>
+                <h5>Edit Page (supports markdown)</h5>
+                <form action="/backend/update/custompage/<%= page.uniqueid %>" method="post">
+                    <textarea class="form-control darkinputcolor" name="pagecontent" placeholder="Your page content..." rows="12" required><%= page.content %></textarea>
+                    <button type="submit" class="btn btn-theme" style="margin-top: 1em; width: 100%;"><i class="fa-solid fa-pen-to-square"></i> Save Changes</button>
+                </form>
+            </div>
+        <% }; %>
+        <%- include('_footer') %>
+    </body>
+</html>

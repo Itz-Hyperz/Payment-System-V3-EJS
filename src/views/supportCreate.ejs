@@ -1,0 +1,45 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Support - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Support - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 text-center">
+                <div class="adminareacol">
+                    <%- include('supportButtons') %>
+                </div>
+            </div>
+            <div class="col-lg-10 mt-5 mb-3 p-4 text-start">
+                <div class="adminareacol">
+                    <h1><i class="fa-solid fa-ticket"></i> Create Ticket</h1>
+                    <hr>
+                    <form action="/backend/support/create/ticket" method="post" enctype="multipart/form-data">
+                        <label for="category">Category</label>
+                        <select name="category" class="form-select mb-3" required>
+                            <option value="None" selected>None</option>
+                            <% categories.forEach(function(item) { %>
+                                <option value="<%= item.name %>"><%= item.name %></option>
+                            <% }); %>
+                        </select>
+                        <label for="title">Title</label>
+                        <input type="text" name="title" placeholder="Title of request..." class="form-control mb-3" required>
+                        <label for="content"><i class="fa-brands fa-markdown"></i> Description</label>
+                        <textarea name="content" class="form-control mb-4" rows="5" placeholder="Ticket description..." required></textarea>
+                        <button type="submit" class="btn btn-theme"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

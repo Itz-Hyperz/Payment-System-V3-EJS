@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Documentation - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Documentation - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="docspaddinglarge">
+            <div class="bg-thatdark docspaddinginner bd-theme">
+                <h1 class="mb-3" style="opacity: 0.9;"><%= sitesettings.sitename %> Documentation</h1>
+                <p class="mb-4">View documentation articles and categories here!</p>
+                <hr>
+                <div class="row mt-5 justify-content-center">
+                    <% categories.forEach(function(item) { %>
+                        <div class="col-lg-4 mb-3">
+                            <div class="bg-theme boxshadowlight p-3 text-start docscatdiv">
+                                <a href="/docs/c/<%= item.link %>" class="nohovereffecta">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-4 text-start">
+                                            <img src="/images/docscat_<%= item.uniqueid %>.png" class="docscatimg desktop" loading="lazy" alt="docs cat image">
+                                        </div>
+                                        <div class="col-lg-8 text-start">
+                                            <h3><%= item.name %></h3>
+                                            <p><%= item.description.slice(0, 160) %>...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

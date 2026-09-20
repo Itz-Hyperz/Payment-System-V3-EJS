@@ -1,0 +1,99 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Support - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Support - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 text-center">
+                <div class="adminareacol">
+                    <%- include('supportButtons') %>
+                </div>
+            </div>
+            <div class="col-lg-10 mt-5 mb-3 p-4 text-start">
+                <div class="adminareacol">
+                    <h1><i class="fa-solid fa-ticket"></i> Ticket <code>#<%= ticket.id %></code></h1>
+                    <h2>Category: <code><%= ticket.category %></code></h2>
+                    <h6>By: <%= ticket.username %> (<code><%= ticket.userid %></code>)</h6>
+                    <hr>
+                    <div class="comment bg-theme p-2 mb-3" style="border-radius: 0.4em;">
+                        <div class="authorsection">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+                                    <img src="/images/avatar_<%= ticket.userid %>.png" class="commentimg">
+                                </div>
+                                <div class="col-8">
+                                    <h5 class="mt-2"><%= ticket.username %></h5>
+                                    <small><%= ticket.datecreated %></small>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="bigfont"><%= ticket.title %></h4>
+                        <%- ticket.content %>
+                    </div>
+                    <hr>
+                    <% comments.forEach(function(comment) { %>
+                        <% if(ticket.answerid == comment.id) {  %>
+                            <div class="comment answercomment" id="<%= comment.id %>" onmouseenter="displayOptions('<%= comment.id %>')" onmouseleave="unDisplayOptions('<%= comment.id %>')">
+                        <% } else { %>
+                            <div class="comment" id="<%= comment.id %>" onmouseenter="displayOptions('<%= comment.id %>')" onmouseleave="unDisplayOptions('<%= comment.id %>')">
+                        <% }; %>
+                            <div class="authorsection">
+                                <div class="row justify-content-center">
+                                    <div class="col-4">
+                                        <img src="/images/avatar_<%= comment.userid %>.png" class="commentimg">
+                                    </div>
+                                    <div class="col-7">
+                                        <h5 class="mt-2"><%= comment.username %></h5>
+                                        <small><%= comment.datecreated %></small>
+                                    </div>
+                                    <div class="col-1">
+                                        <div id="menu_<%= comment.id %>" class="commentmenu bg-theme mb-3" style="visibility: hidden;">
+                                            <a class="text-success" title="Mark answer..." href="/backend/support/markanswer/<%= ticket.id %>/<%= comment.id %>"><i class="fa-solid fa-circle-check"></i></a>
+                                            <% if(isStaff) { %>
+                                                <a class="text-danger ms-1" title="Delete comment..." href="/backend/support/delete/comment/<%= ticket.id %>/<%= comment.id %>"><i class="fa-solid fa-ban"></i></a>
+                                            <% }; %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%- comment.content %>
+                        </div>
+                        <hr>
+                    <% }); %>
+                    <div class="bg-theme mt-4 mb-5 p-3" style="border-radius: 0.4em;">
+                        <h2><i class="fa-solid fa-comments"></i> Create Comment</h2>
+                        <hr>
+                        <form action="/backend/support/create/comment/<%= ticket.id %>" method="post">
+                            <label for="content"><i class="fa-brands fa-markdown"></i> Content</label>
+                            <textarea name="content" class="form-control mb-4" rows="5" placeholder="Comment content..." required></textarea>
+                            <button type="submit" class="btn btn-themedark"><i class="fa-solid fa-comment"></i> Post Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+            function displayOptions(uniqueid) {
+                var comment = document.getElementById(uniqueid);
+                var menu = document.getElementById(`menu_${uniqueid}`);
+                menu.style.visibility = "visible";
+            };
+            function unDisplayOptions(uniqueid) {
+                var comment = document.getElementById(uniqueid);
+                var menu = document.getElementById(`menu_${uniqueid}`);
+                menu.style.visibility = "hidden";
+            };
+        </script>
+    </body>
+</html>

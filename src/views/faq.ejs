@@ -1,0 +1,37 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>FAQ - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="FAQ - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-start mb-5">
+            <h1 class="bigfont">Frequently Asked Questions</h1>
+            <hr>
+            <br>
+            <div class="accordion accordion-flush bg-theme" id="accordionFlushExample">
+              <% faq.forEach(function (item) { %>
+                  <div class="accordion-item bd-theme">
+                      <h2 class="accordion-header bg-theme" id="flush-headingOne">
+                        <button class="accordion-button collapsed bg-theme boxshadowlight" type="button" data-bs-toggle="collapse" data-bs-target="#<%= item.uniqueid %>" aria-expanded="false" aria-controls="flush-collapseOne">
+                          <%= item.question %>
+                        </button>
+                      </h2>
+                      <div id="<%= item.uniqueid %>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body text-start"><%= item.answer %></div>
+                      </div>
+                  </div>
+              <% }); %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

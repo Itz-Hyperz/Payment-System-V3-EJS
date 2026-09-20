@@ -1,0 +1,34 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Apply - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Apply - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container bg-thatdark bd-theme p-3 text-center mt-5 mb-5 homecolumnfirsthr">
+            <h1>Applications</h1>
+            <hr>
+            <div class="row justify-content-center">
+                <% applications.forEach(function(item) { %>
+                    <div class="col-lg-3 mb-3">
+                        <div class="bg-navbar borderradius p-4">
+                            <h3><%= item.name %></h3>
+                            <hr>
+                            <a href="/apply/<%= item.id %>" class="btn btn-theme w-100">Apply Now!</a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

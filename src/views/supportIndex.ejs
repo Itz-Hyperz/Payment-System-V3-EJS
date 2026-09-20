@@ -1,0 +1,72 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Support - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Support - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 text-center">
+                <div class="adminareacol">
+                    <%- include('supportButtons') %>
+                </div>
+            </div>
+            <div class="col-lg-10 mb-3 p-3 text-start">
+                <div class="adminareacol">
+                    <div class="row justify-content-center p-3">
+                        <div class="col-lg-9 mb-3 aligncentermobile">
+                            <h1 class="bigfont mt-4 mb-3"><%= sitesettings.sitename %></h1>
+                            <p><%= sitesettings.sitedesc %></p>
+                            <a href="/support/create" class="btn btn-theme btn-lg mt-3 mb-3"><i class="fa-solid fa-ticket"></i> Submit A Request</a>
+                        </div>
+                        <div class="col-lg-3 mb-3 text-center">
+                            <img src="/assets/logo.png" class="homelogo" alt="website logo">
+                        </div>
+                        <hr>
+                        <div class="col-lg-3 mb-3">
+                            <div class="statistic">
+                                <h1><i class="fa-solid fa-ticket"></i></h1>
+                                <hr>
+                                <h2 class="mb-3"><%= stats.tickets %></h2>
+                                <h4 class="bigfont">Tickets</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 mb-3">
+                            <div class="statistic">
+                                <h1><i class="fa-solid fa-server"></i></h1>
+                                <hr>
+                                <h2 class="mb-3"><%= stats.categories %></h2>
+                                <h4 class="bigfont">Categories</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 mb-3">
+                            <div class="statistic">
+                                <h1><i class="fa-solid fa-users"></i></h1>
+                                <hr>
+                                <h2 class="mb-3"><%= stats.users %></h2>
+                                <h4 class="bigfont">Users</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 mb-3">
+                            <div class="statistic">
+                                <h1><i class="fa-solid fa-shield-halved"></i></h1>
+                                <hr>
+                                <h2 class="mb-3"><%= stats.staff %></h2>
+                                <h4 class="bigfont">Staff</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

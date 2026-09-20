@@ -1,0 +1,134 @@
+<%
+    let daBoxStyle = "bg-thatdark boxshadowlight productbox bd-theme";
+    let daButtonStyle = "btn-theme";
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Promo - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Promo - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <style>
+            body {
+                box-shadow: inset 0 0 0 1000px rgba(0,0,0,.5) !important;
+                background-image: url('../../assets/headerimage.jpg') !important;
+                height: 100% !important;
+                background-repeat: no-repeat !important;
+                background-size: cover !important;
+                background-position: center center !important;
+            }
+        </style>
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container">
+            <div class="row p-4 mb-4 justify-content-center">
+                <div class="col-lg-12 mb-3">
+                    <img src="/images/product_1691715034397WfzQwnxNWz29p4.png" class="bosswebstorepromo-mainimg mb-3">
+                    <h1 class="bigfont mb-3">Boss Webstore</h1>
+                    <h5>A revolutionary product designed to make your business thrive!</h5>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <a class="btn btn-theme btn-lg w-100" href="/shop/storesystem"><i class="fa-solid fa-eye"></i> View Product</a>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <a class="btn btn-theme btn-lg w-100" href="/backend/addtocart/1691715034397WfzQwnxNWz29p4"><i class="fa-solid fa-cart-plus"></i> Add to Cart</a>
+                </div>
+                <div class="col-lg-12 mt-3 mb-3">
+                    <hr>
+                    <h3 class="mb-3 mt-3 bigfont">Great Features</h3>
+                </div>
+                <div class="col-lg-3 mt-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-arrow-up"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Updates</h2>
+                        <p>We are consistenly pushing out updates that make your experience better!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Design</h2>
+                        <p>Our store supports custom themes, this allows you to truely have a store that suits you!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Self-Hosted</h2>
+                        <p>Host your store on your own hardware with no additional hosting fees from us at all!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Integration</h2>
+                        <p>You can fully integrate just about anything with our system via the backend API!</p>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3 mb-3">
+                    <hr>
+                    <h3 class="mb-3 mt-3 bigfont">Service Integrations</h3>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-brands fa-discord"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Discord</h2>
+                        <p>We offer multiple Discord integrations, from the bot application, oAuth2 login, and auto-roles!</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Tebex</h2>
+                        <p>Our Tebex integration ensures that your game assets stay secure 24/7!</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="piciconhome bg-theme">
+                        <i class="fa-solid fa-crow"></i>
+                    </div>
+                    <div class="statdata">
+                        <h2>Tawk.To</h2>
+                        <p>We offer a free-to-use integrated live-chat system that keeps your customers happy!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if(usingcompanies.length > 0) { %>
+            <div class="container mt-5 mb-5">
+                <h2 class="mb-4 text-center mt-5 bigfont">Companies Using Our Services!</h2>
+                <hr>
+                <div class="row justify-content-center">
+                   <% usingcompanies.forEach(function(item) { %>
+                        <div class="col-auto mb-3 spacingstats">
+                            <a href="<%= item.link %>" target="_blank">
+                                <img src="/images/usingcompany_<%= item.uniqueid %>.png" loading="lazy" class="usingcompanylogo">
+                            </a>
+                        </div>
+                   <% }); %>
+                </div>
+            </div>
+        <% }; %>
+        <%- include('_footer') %>
+    </body>
+</html>

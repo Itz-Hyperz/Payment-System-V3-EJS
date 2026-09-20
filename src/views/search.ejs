@@ -1,0 +1,60 @@
+<%
+    let daBoxStyle = "bg-thatdark boxshadowlight productbox bd-theme";
+    let daButtonStyle = "btn-theme";
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Search - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Search - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-start">
+            <h1 class="bigfont">Search</h1>
+            <hr>
+            <br>
+            <form action="/search" method="post">
+                <div class="input-group mb-3 searchgroup">
+                    <input type="text" class="form-control searchbox" name="search" placeholder="Search something..." value="<%= search.query || '' %>" required>
+                    <button class="btn btn-theme" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                </div>
+            </form>
+            <hr>
+            <br>
+            <% if(search.valid) { %>
+                <div class="container text-start">
+                    <h2 class="bigfont">Products</h2>
+                    <p>Here are the products we found relating to your search.</p>
+                    <br>
+                    <div class="row justify-content-start">
+                        <% search.results.products.forEach(function(item) { %>
+                            <div class="col-lg-4 ">
+                                <div class="<%= daBoxStyle %>">
+                                    <img src="/images/product_<%= item.uniqueid %>.png" class="productimagelist" loading="lazy" alt="">
+                                    <p class="text-start producttitlelist"><%= item.name %></p>
+                                    <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                    <hr>
+                                    <a href="/shop/<%= item.link %>" class="btn <%= daButtonStyle %> productbuttonlist">View Product</a>
+                                    <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn <%= daButtonStyle %> productbuttonlist">Add to cart</a>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <br>
+            <% } else { %>
+                <h4 class="text-center">No results found...</h4>
+            <% }; %>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

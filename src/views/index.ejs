@@ -1,0 +1,473 @@
+<%
+    let reviewCount = 0;
+    currentImg = 0;
+    currentImg2 = "active";
+%>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <title>Home - <%= sitesettings.sitename %></title> -->
+        <!-- <meta property="og:title" content="Home - <%= sitesettings.sitename %>" /> -->
+        <title>Boss Software Systems | Custom Software Development & Web Design in Northern Michigan</title>
+        <meta property="og:title" content="Boss Software Systems | Custom Software Development & Web Design in Northern Michigan" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <!-- <meta name="description" content="<%= sitesettings.sitedesc %>" /> -->
+        <!-- <meta property="og:description" content="<%= sitesettings.sitedesc %>" /> -->
+        <meta name="description" content="Custom software development, website design, SEO, and business automation solutions throughout Northern Michigan." />
+        <meta property="og:description" content="Custom software development, website design, SEO, and business automation solutions throughout Northern Michigan." />
+        <meta property="og:type" content="website" />
+        <meta name="keywords" content="social media marketing agency, petoskey website design, online marketing services, local seo services, affordable website development, affordable website design, affordable, harbor springs web design, charlevoix website design, northern michigan website design, up north website creation,  nGoogle My Business services, certified social media specialist, Logan Gross, Boss Software Systems, Boss Software System, social media marketing agency for small business, social media training, corporate social media training, social media strategy for small business, Hyperz Development, social media help for small business, social media marketing petoskey, social media marketing northern Michigan, social media marketing Traverse City, social media marketing Grand Rapids, social media marketing Ann Arbor, social media marketing services, online marketing services, social media speakers, social media marketing expert, social media marketing specialist, Michigan social media marketing agency, Michigan social media marketing">
+        <script src="https://analytics.ahrefs.com/analytics.js" data-key="PuOWOGiEFQsQblFv/c4tZA" async></script>
+        <script type="application/ld+json">
+            {
+              "@context":"https://schema.org",
+              "@type":"SoftwareCompany",
+              "name":"<%= sitesettings.sitename %>",
+              "url":"<%= config.domain %>",
+              "telephone":"2316225485"
+            }
+        </script>
+        <style>
+            .headertocontent, .headerbreak {
+                margin-bottom: 0em !important;
+            }
+            <% if(sitestyles.clientcompaniesgreyscale) { %>
+                .usingcompanylogo {
+                    filter:grayscale(100) !important;
+                }
+            <% }; %>
+        </style>
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="headerimagehome">
+            <!-- MIDDLE CONTENT START -->
+            <div class="homepagemiddle">
+                <div class="row justify-content-center desktop">
+                    <div class="col-lg-6 mb-3 text-start">
+                        <% if(sitestyles.currentprodsbtn) { %>
+                            <a href="page/serving-northern-michigan" class="btn btn-outline-theme whyboss viewourchangesbutton">Serving Northern Michigan</a>
+                        <% }; %>
+                        <p class="midtitle"><%= sitesettings.sitename %></p>
+                        <p class="midpg"><%- sitesettings.homeabout %></p>
+                        <% if(sitestyles.ourdiscordbtn) { %>
+                            <a href="<%= sitestyles.ourdiscordbtnlink %>" class="btn w-75 btn-lg btn-theme homebutton"><%= sitestyles.ourdiscordbtntext %></a>
+                        <% }; %>
+                        <% if(sitestyles.recentpurchases && typeof recentPurchase != 'boolean') { %>
+                            <div class="bg-thatdark bd-theme p-3 mt-5" style="border-radius: 1em;">
+                                <h5 class="mb-3 bigfont">Recent Purchase</h5>
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-5 mb-3">
+                                        <img src="/images/product_<%= recentPurchase.ownedItem.productid %>.png" class="recentPurchaseImage">
+                                    </div>
+                                    <div class="col-lg-7 mb-3">
+                                        <h6 class="bigfont"><span class="text-theme">Name: </span><%= recentPurchase.ownedItem.productname %></h6>
+                                        <h6 class="bigfont"><span class="text-theme">Price: </span><%= recentPurchase.ownedItem.price %></h6>
+                                        <h6 class="bigfont"><span class="text-theme">Date: </span><%= recentPurchase.ownedItem.datebought %></h6>
+                                        <hr>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-1 mb-3">
+                                                <img src="/images/avatar_<%= recentPurchase.userInfo.id %>.png" class="recentPurchaseUserLogo bd-theme">
+                                            </div>
+                                            <div class="col-lg-11 mb-3">
+                                                <h5 class="bigfont text-theme mt-2 text-start ps-4"><%= recentPurchase.userInfo.username %></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }; %>
+                    </div>
+                    <div class="col-lg-6 mb-3 text-end">
+                        <img src="/assets/logo.png" alt="website logo" class="midlogo">
+                    </div>
+                </div>
+                <div class="mobile text-center">
+                    <% if(sitestyles.currentprodsbtn) { %>
+                        <a href="page/serving-northern-michigan" class="btn btn-outline-theme whyboss viewourchangesbutton">Serving Northern Michigan</a>
+                    <% }; %>
+                    <p class="midtitle"><%= sitesettings.sitename %></p>
+                    <p class="midpg"><%- sitesettings.homeabout %></p>
+                    <% if(sitestyles.ourdiscordbtn) { %>
+                        <a href="<%= sitestyles.ourdiscordbtnlink %>" class="btn btn-lg w-75 btn-theme homebutton"><%= sitestyles.ourdiscordbtntext %></a>
+                    <% }; %>
+                </div>
+                <div class="tablet text-center">
+                    <% if(sitestyles.currentprodsbtn) { %>
+                        <a href="/shop" class="btn btn-outline-secondary viewourchangesbutton">View our current products</a>
+                    <% }; %>
+                    <p class="midtitle"><%= sitesettings.sitename %></p>
+                    <p class="midpg"><%- sitesettings.homeabout %></p>
+                    <% if(sitestyles.ourdiscordbtn) { %>
+                        <a href="<%= sitestyles.ourdiscordbtnlink %>" class="btn btn-lg w-75 btn-theme homebutton"><%= sitestyles.ourdiscordbtntext %></a>
+                    <% }; %>
+                </div>
+            </div>
+            <!-- MIDDLE CONTENT END -->
+        </div>
+        <% if(sitestyles.whycompanyenabled) { %>
+            <div class="container justify-content-center mt-5 mb-5">
+                <p class="mb-4 text-center whyboss bigfont plus-jakarta-sans-bold">Why <%= sitesettings.sitename %></p>
+                <br>
+                <h1 class="mb-4 text-center plus-jakarta-sans-bold"><%= sitestyles.whycompanytitle %></h1>
+                <p style="font-size: 1.3em;" class="text-center text-secondary mb-5 bigfont plus-jakarta-sans"><%= sitestyles.whycompanysubtitle %></p>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">Lightning Fast</h3>
+                            <p class="mb-3 plus-jakarta-sans">Optimized for performance with simple installation. Get running in minutes, not hours.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">Secure & Reliable</h3>
+                            <p class="mb-3 plus-jakarta-sans">License-protected resources with encrypted validation. Your assets & data stay protected from theft.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">Regular Updates</h3>
+                            <p class="mb-3 plus-jakarta-sans">Continuous improvements, new features, and platform compatibility updates. We make sure your software is in tip top shape.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">App Integration</h3>
+                            <p class="mb-3 plus-jakarta-sans">Deep app integration, we can make any app work with your business or website. Consistency is important!</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">Expert Support</h3>
+                            <p class="mb-3 plus-jakarta-sans">Dedicated support team ready to help. Get answers fast through our our email or a phone call!.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                            <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                <i class="fa-solid fa-paintbrush"></i>
+                            </div>
+                            <h3 class="plus-jakarta-sans-bold mb-3">Full Customization</h3>
+                            <p class="mb-3 plus-jakarta-sans">You can 100% fully customize anything you want about your product! Allowing it to really feel true to you!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }; %>
+        <br>
+        <% if((sitestyles.statsproducts + sitestyles.statsclients + sitestyles.statspurchases + sitestyles.statsusers + sitestyles.statsreviews + sitestyles.statspartners + sitestyles.statsstaff) > 0) { %>
+            <div class="container mt-5 mb-5">
+                <h2 class="mb-4 text-start mt-5 bigfont">Our Statistics</h2>
+                <hr>
+                <div class="row justify-content-center">
+                    <% if(sitestyles.statsproducts) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fa-solid fa-store"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.products.toLocaleString() %></h2>
+                                <p>Products</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statsclients) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.clients.toLocaleString() %></h2>
+                                <p>Clients</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statspurchases) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fas fa-shopping-basket"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.purchases.toLocaleString() %></h2>
+                                <p>Purchases</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statsusers) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fa-solid fa-address-book"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.users.toLocaleString() %></h2>
+                                <p>Users</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statsreviews) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.reviews.toLocaleString() %></h2>
+                                <p>Reviews</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statspartners) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fa-solid fa-handshake-simple"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.partner.toLocaleString() %></h2>
+                                <p>Partners</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                    <% if(sitestyles.statsstaff) { %>
+                        <div class="col-auto spacingstats">
+                            <div class="piciconhome bg-theme">
+                                <i class="fa-solid fa-people-group"></i>
+                            </div>
+                            <div class="statdata">
+                                <h2><%= stats.team.toLocaleString() %></h2>
+                                <p>Staff</p>
+                            </div>
+                        </div>
+                    <% }; %>
+                </div>
+            </div>
+        <% }; %>
+        <% if(featprod.length > 0) { %>
+            <div class="container">
+                <h2 class="mb-4 text-start mt-5 bigfont">Featured Products</h2>
+                <hr>
+                <div class="row justify-content-start">
+                    <% featprod.forEach(function(item) { %>
+                        <div class="col-lg-4 mb-5" style="border-radius: 0.2em;">
+                            <div class="bg-thatdark p-4 bd-theme">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-12 mb-2">
+                                        <img src="/images/product_<%= item.uniqueid %>.png" class="featprodimage" loading="lazy" alt="">
+                                    </div>
+                                    <div class="col-lg-7 text-start mb-4">
+                                        <a href="/shop/<%= item.link %>" class="text-start producttitlelist"><%= item.name %></a>
+                                    </div>
+                                    <div class="col-lg-5 mb-4">
+                                        <small>
+                                            <% if(item.reviewAverage < 1) { %>
+                                                <small class="bigfont text-secondary">Not yet rated...</small>
+                                            <% } else if(item.reviewAverage == 1) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                            <% } else if(item.reviewAverage == 2) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                            <% } else if(item.reviewAverage == 3) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                            <% } else if(item.reviewAverage == 4) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                            <% } else if(item.reviewAverage >= 5 ) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% }; %>
+                                        </small>
+                                    </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <% if(item.pricecrossout != 'none') { %>
+                                            <p class="text-start text-theme productpricelist"><span class="text-secondary crossout"><%= config.paymentSettings.currencySymbol %><%= item.pricecrossout %></span> <%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                        <% } else { %>
+                                            <p class="text-start text-theme productpricelist"><%= config.paymentSettings.currencySymbol %><%= item.price %></p>
+                                        <% }; %>
+                                    </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <% if(!item.paused) { %>
+                                            <% if(Number(item.price) > 0) { %>
+                                                <a href="/backend/addtocart/<%= item.uniqueid %>" class="btn btn-theme btn-sm productbuttonlist"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                                            <% } else { %>
+                                                <a href="/download/product/<%= item.uniqueid %>" class="btn btn-theme btn-sm productbuttonlist"><i class="fa-solid fa-download"></i> Download</a>
+                                            <% }; %>
+                                        <% }; %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% }; %>
+        <% if(usingcompanies.length > 0) { %>
+            <div class="container mt-5 mb-5">
+                <h1 class="mb-4 text-center mt-5 bigfont plus-jakarta-sans-bold">Companies Using Our Services!</h1>
+                <p style="font-size: 1.3em;" class="text-center text-secondary mb-5 bigfont plus-jakarta-sans">These are some of our current clients that have had their website or other work done by <span class="colortfouttathatbruh">Boss Software Systems</span>!</p>
+                <hr>
+                <!-- <div class="row justify-content-center">
+                   <% usingcompanies.forEach(function(item) { %>
+                        <div class="col-auto mb-5 spacingstats">
+                            <a href="<%= item.link %>" target="_blank">
+                                <img src="/images/usingcompany_<%= item.uniqueid %>.png" loading="lazy" class="usingcompanylogo">
+                            </a>
+                        </div>
+                   <% }); %>
+                </div> -->
+                <div id="continuousCarousel" class="carousel slide desktop" data-bs-pause="false" data-bs-interval="1" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <div class="row text-center">
+                            <% usingcompanies.forEach(function(item) { %>
+                                <div class="col-auto mb-5 spacingstats">
+                                    <a href="<%= item.link %>" target="_blank">
+                                        <img src="/images/usingcompany_<%= item.uniqueid %>.png" loading="lazy" class="usingcompanylogo">
+                                    </a>
+                                </div>
+                           <% }); %>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="row text-center">
+                            <% usingcompanies.forEach(function(item) { %>
+                                <div class="col-auto mb-5 spacingstats">
+                                    <a href="<%= item.link %>" target="_blank">
+                                        <img src="/images/usingcompany_<%= item.uniqueid %>.png" loading="lazy" class="usingcompanylogo">
+                                    </a>
+                                </div>
+                           <% }); %>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div id="continuousCarousel" class="carousel slide mobile" data-bs-pause="false" data-bs-interval="1" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <% usingcompanies.forEach(function(item, index) { %>
+                      <div class="carousel-item <% if(index == 0) { %> active <% }; %>">
+                        <div class="row text-center">
+                                <div class="col-lg-6 mb-5 spacingstats">
+                                    <a href="<%= item.link %>" target="_blank">
+                                        <img src="/images/usingcompany_<%= item.uniqueid %>.png" loading="lazy" class="usingcompanylogo">
+                                    </a>
+                                </div>
+                          </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                  </div>
+            </div>
+            <br>
+        <% }; %>
+        <% if(sitestyles.homepagefaqshowcase) { %>
+            <div class="container text-center mb-5 mt-3">
+                <h1 class="bigfont">Frequently Asked Questions</h1>
+                <hr>
+                <br>
+                <div class="accordion accordion-flush bg-theme" id="accordionFlushExample">
+                  <% faq.forEach(function (item) { %>
+                      <div class="accordion-item bd-theme">
+                          <h2 class="accordion-header bg-theme" id="flush-headingOne">
+                            <button class="accordion-button collapsed bg-theme boxshadowlight" type="button" data-bs-toggle="collapse" data-bs-target="#<%= item.uniqueid %>" aria-expanded="false" aria-controls="flush-collapseOne">
+                              <%= item.question %>
+                            </button>
+                          </h2>
+                          <div id="<%= item.uniqueid %>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body text-start"><%= item.answer %></div>
+                          </div>
+                      </div>
+                  <% }); %>
+                </div>
+            </div>
+        <% }; %>
+        <% if(sitestyles.homepagereviewsshowcase) { %>
+            <div class="container">
+                <br>
+                <h1>Community Reviews</h1>
+                <p>See what others have to say about our services!</p>
+                <div class="row justify-content-center">
+                    <% reviews.forEach(function(review) { %>
+                        <% if(typeof review == 'undefined') return; %>
+                        <div class="col-lg-3 mb-3">
+                            <br>
+                            <a href="/review/<%= review.uniqueid %>" class="nohovereffecta" style="color: white !important;">
+                                <div class="p-4 bg-thatdark bd-theme boxshadowlol" style="border-radius: 1em;">
+                                    <img src="/images/avatar_<%= review.userid %>.png" class="reviewlogo bg-theme bd-theme boxshadowlight" alt="user image" loading="lazy">
+                                    <div class="reviewstars">
+                                        <p>
+                                            <% if(review.rating <= 1) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else if(review.rating == 2) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else if(review.rating == 3) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else if(review.rating == 4) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else if(review.rating >= 5 ) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% }; %>
+                                        </p>
+                                    </div>
+                                    <h2 class="reviewheader revheadhome"><%= review.username %></h2>
+                                    <hr>
+                                    <h6 class="reviewbody" style="text-decoration: underline;"><%= review.itemname %></h6>
+                                    <p class="reviewbody"><%= review.content.slice(0, 110) %>...</p>
+                                </div>
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <br>
+            <hr>
+        <% }; %>
+        <%- include('_footer') %>
+        
+        <script>
+            var myCarousel = document.querySelector('#continuousCarousel')
+            var carousel = new bootstrap.Carousel(myCarousel)
+        </script>
+    </body>
+</html>

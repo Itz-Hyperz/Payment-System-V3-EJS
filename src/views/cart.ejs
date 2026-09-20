@@ -1,0 +1,162 @@
+<%
+  let deCartPage = [];
+  if(typeof user.cart != 'undefined') {
+    deCartPage = JSON.parse(user.cart);
+  };
+  let totalValuePage = 0;
+  let collectFiveM = false;
+  let collectShipping = false;
+  function convertProdType(value) {
+    switch(value) {
+      case 1:
+        return 'fa-solid fa-download';
+        break;
+      case 2:
+        return 'fa-solid fa-rotate-right';
+        break;
+      case 3:
+        return 'fa-solid fa-box-open';
+        break;
+    };
+  };
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cart - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Cart - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container mb-5">
+            <h1 class="bigfont text-start">Your Shopping Cart</h1>
+            <hr>
+            <div class="container bg-thatdark p-4 bd-theme mb-5">
+              <% if(deCartPage.length < 1) { %>
+                <h3><i class="fa-solid fa-face-sad-tear"></i> Uh Oh...</h3>
+                <hr>
+                <p>You have nothing in your cart...</p>
+                <br>
+                <a href="/shop" class="btn bg-theme bd-theme text-white"><i class="fa-solid fa-bag-shopping"></i> Shop Now</a>
+              <% } else { %>
+                <div class="row justify-content-center p-4">
+                  <div class="col-lg-6 mb-3 text-start">
+                    <h2 style="font-weight: 700;">Cart Items</h2>
+                    <hr>
+                      <div class="row justify-content-center cartpagefixedheight">
+                        <% deCartPage.forEach(function(item) { %>
+                          <% totalValuePage = totalValuePage + Number(item.price) %>
+                          <% if(item.tebex != 'none') { collectFiveM = true; }; %>
+                          <% if(item.prodtype == 3) { collectShipping = true; }; %>
+                          <div class="col-12 mb-4 d-flex cartpagebigblock">
+                            <h3 class="cartpageremove" style="opacity: 0.9;"><a href="/backend/remove/cart/<%= item.uniqueid %>">&times;</a></h3>
+                            <img src="/images/product_<%= item.uniqueid %>.png" class="cartpagefeatprod" alt="product feat image">
+                            <h3 class="cartpageitemname"><a href="/backend/findproduct/<%= item.uniqueid %>"><i class="<%= convertProdType(item.prodtype) %>"></i> <%= item.name %></a> | <span class="text-theme"><%= config.paymentSettings.currencySymbol %><%= item.price %></span></h3>
+                          </div>
+                        <% }); %>
+                      </div>
+                      <div class="row justify-content-center">
+                        <div class="col-12 mb-4">
+                          <form action="/backend/apply/discount" method="post" style="margin-top: 1em;">
+                            <% if(user.discount != 0 && typeof user.discount != 'undefined') { %>
+                              <p class="text-start text-success" style="margin-top: 0;"><%= user.discount %>% Code Applied!</p>
+                            <% }; %>
+                            <% if(user.giftcard != 'none' && typeof user.discount != 'undefined') { %>
+                              <p class="text-start text-success" style="margin-top: 0;">Giftcard Applied, view payment screen to see adjusted price!</p>
+                            <% }; %>
+                            <div class="input-group">
+                                <input type="text" name="code" class="form-control" placeholder="Discount / Giftcard..." aria-label="Discount / Giftcard..." required>
+                                <button class="btn btn-theme cartpageapplydiscountbutton" type="submit" id="button-addon2">Apply</button>
+                            </div>
+                          </form>
+                          <br>
+                          <% if(user.discount != 0 && typeof user.discount != 'undefined') { %>
+                            <h3 style="font-weight: 700; margin-bottom: 0.6em;">Total Amount Due: <span class="text-theme"><%= config.paymentSettings.currencySymbol %><%= totalValuePage.toFixed(2) %></span></h3>
+                            <h3 style="font-weight: 700;">Discounted Amount: <span class="text-theme"><%= config.paymentSettings.currencySymbol %><%= Math.round(100*(totalValuePage - ((totalValuePage / 10) * (user.discount * .10))))/100 %></span></h3>
+                          <% } else { %>
+                            <h3 style="font-weight: 700;">Total Amount Due: <span class="text-theme"><%= config.paymentSettings.currencySymbol %><%= Math.round(100*totalValuePage)/100 %></span></h3>
+                          <% }; %>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <h2 style="font-weight: 700;">Checkout Area</h2>
+                    <hr>
+                    <form method="post">
+                      <h4 class="offcanvas-title text-start" style="font-weight: 700;" id="offcanvasRightLabel">Agreement</h4>
+                      <br>
+                      <p class="text-start"><input class="form-check-input bg-theme" type="checkbox" value="" aria-label="termsagreement" required> Please confirm that you agree to our <a href="/tos" target="_blank" class="nohovereffecta" style="text-decoration: underline;">Terms of Service</a> and our <a href="/privacy" target="_blank" class="nohovereffecta" style="text-decoration: underline;">Privacy Policy</a>.</p>
+                      <% if(collectFiveM) { %>
+                        <input class="mt-3 form-control" type="text" placeholder="FiveM Username (required)" required name="fivemusername">
+                      <% }; %>
+                      <% if(collectShipping) { %>
+                        <hr>
+                        <div class="text-start">
+                          <h3 class="text-start" style="margin-bottom: 0.4em !important; font-weight: 700;"><i class="fa-solid fa-box-open"></i> Shipping Information</h3>
+                        <small><span class="text-secondary mb-3 text-start">If there are any issues with your order, this is the information we will use to contact you.</span></small>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col-lg-6">
+                            <input class="mt-3 form-control" type="text" placeholder="First & Last Name" required name="firstlastname">
+                          </div>
+                          <div class="col-lg-6">
+                            <input class="mt-3 form-control" type="text" placeholder="Shipping Email" required name="shippingemail">
+                          </div>
+                          <div class="col-lg-8">
+                            <input class="mt-3 form-control" type="text" placeholder="Street Address" required name="address">
+                          </div>
+                          <div class="col-lg-4">
+                            <input class="mt-3 form-control" type="text" placeholder="Zip Code" required name="zipcode">
+                          </div>
+                          <div class="col-lg-4">
+                            <input class="mt-3 form-control" type="text" placeholder="City" required name="city">
+                          </div>
+                          <div class="col-lg-4">
+                            <input class="mt-3 form-control" type="text" placeholder="State" required name="state">
+                          </div>
+                          <div class="col-lg-4">
+                            <input class="mt-3 form-control" type="text" placeholder="Country" required name="country">
+                          </div>
+                        </div>
+                      <% } else { %>
+                        <input class="mt-3 form-control" type="number" placeholder="Gifting User ID (optional)" name="requestuserid">
+                      <% }; %>
+                      <hr>
+                      <h4 class="offcanvas-title text-start mb-2" style="font-weight: 700;" id="offcanvasRightLabel">Payment Method</h4>
+                      <p class="text-start" style="opacity: 0.9;">Looking for a different way to pay? Feel free to reach out to us and maybe we can help!</p>
+                      <br>
+                      <% if(!user || (JSON.parse(user.cart)).length < 1) { %>
+                        <% if(config.paymentSettings.useStripe) { %>
+                          <button type="submit" disabled formaction="/backend/checkout/stripe" class="btn btn-lg stripepayment paymentbutton"><i class="fa-brands fa-cc-stripe"></i> Stripe Checkout</button>
+                        <% }; %>
+                        <% if(config.paymentSettings.usePaypal) { %>
+                          <button type="submit" disabled formaction="/backend/checkout/paypal" class="btn btn-lg paypalpayment paymentbutton" style="margin-bottom: 0;"><i class="fa-brands fa-cc-paypal"></i> PayPal Checkout</button>
+                        <% }; %>
+                      <% } else { %>
+                        <% if(config.paymentSettings.useStripe) { %>
+                          <button type="submit" formaction="/backend/checkout/stripe" class="btn btn-lg stripepayment paymentbutton"><i class="fa-brands fa-cc-stripe"></i> Stripe Checkout</button>
+                        <% }; %>
+                        <% if(config.paymentSettings.usePaypal) { %>
+                          <button type="submit" formaction="/backend/checkout/paypal" class="btn btn-lg paypalpayment paymentbutton" style="margin-bottom: 0;"><i class="fa-brands fa-cc-paypal"></i> PayPal Checkout</button>
+                        <% }; %>
+                      <% }; %>
+                      <hr>
+                      <a href="/shop" class="btn btn-lg keepshopping btn-theme paymentbutton"><i class="fa-solid fa-bag-shopping"></i> Continue Shopping</a>
+                    </form>
+                  </div>
+                </div>
+              <% }; %>
+            </div>
+        </div>
+        <div class="mb-5 mt-5"><br></div>
+        <%- include('_footer') %>
+    </body>
+</html>

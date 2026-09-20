@@ -1,0 +1,181 @@
+<%
+    function convertActive(value) {
+        if(value) {
+            return 'Disabled';
+        } else {
+            return 'Enabled';
+        };
+    };
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>License System - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="License System - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo:ital@1&family=Montserrat:wght@500&family=Source+Code+Pro:wght@200;300&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script>console.log('EJS template made by Hyperz#0001');</script>
+
+        <!-- Custom Styling & Scripts -->
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
+
+        <style>
+            a:hover {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            .bg-theme {
+                background-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .bd-theme {
+                border-style: solid;
+                border-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .text-theme {
+                color: <%= sitesettings.sitecolor %> !important;
+            }
+            .btn-theme {
+            color: white;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-theme:hover {
+            border-color: <%= sitesettings.sitecolor %>;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme {
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme:hover {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .form-check-input:checked {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .productpagecontainer a {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            /* Highlight Stuffs */
+            ::selection {
+                background: <%= sitesettings.sitecolor %>; /* WebKit/Blink Browsers */
+            }
+            ::-moz-selection {
+                background: <%= sitesettings.sitecolor %>; /* Gecko Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <br>
+        <br>
+        <div class="container text-start bg-dark boxshadowlol receiptbox">
+            <h1 style="font-weight: 700;"><i class="fa-solid fa-lock"></i> License System</h1>
+            <h3 class="text-theme"><i class="fa-solid fa-cart-shopping"></i> <%= owneditem.productname %></h3>
+            <h3 class="text-theme"><i class="fa-solid fa-user"></i> <code><%= owneditem.userid %></code></h3>
+            <hr>
+            <% if(owneditem.admindisabled) { %>
+                <h3 class="text-danger"><i class="fa-solid fa-lock"></i> This key has been disabled by an administrator.</h3>
+                <hr>
+            <% }; %>
+            <h4><i class="fa-solid fa-signal"></i> Status: <a href="/backend/toggledisabled/license/<%= owneditem.uniqueid %>" class="text-theme"><%= convertActive(owneditem.disabled) %></a> - <span style="opacity: 0.9; font-size: 0.9em;"><em>Toggle the current status of the license.</em></span></h4>
+            <h4><i class="fa-solid fa-key"></i> License Key: <code class="filterblurextra"><%= owneditem.licensekey %></code> | <i class="fa-solid fa-copy text-theme"></i> <button onclick="myFunction()" id="copyButton" class="btnnostyle text-theme">Copy</button> / <a class="text-theme" href="/backend/regenlicense/<%= owneditem.uniqueid %>"><i class="fa-solid fa-rotate"></i> Regenerate</a></h4>
+            <input type="text" id="thatlk" value="<%= owneditem.licensekey %>" hidden>
+            <br>
+            <form action="/backend/update/license/<%= owneditem.uniqueid %>" method="post">
+                <p style="font-size: 1.1em;"><i class="fa-solid fa-lock-open"></i> Authorized IP:</p>
+                <div class="input-group mb-3">
+                    <input type="text" name="authip" class="form-control darkinputcolor searchbox" placeholder="Authorized IP Address..." value="<%= owneditem.authorizedip %>">
+                    <button class="btn btn-theme" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                </div>
+            </form>
+            <hr>
+            <h3 class="text-center text-theme" style="font-weight: 700;"><i class="fa-solid fa-clipboard-list"></i> Previous Logs</h3>
+            <div class="customDiv">
+                <table class="table table-bordered border-white text-white">
+                  <thead>
+                    <tr>
+                      <th scope="col">Date/Time</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">IP Address</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% dalogs.reverse().forEach(function(log) { %>
+                      <tr>
+                          <td><%= log.datetime %></td>
+                          <td><%= log.status %></td>
+                          <td><code><%= log.ipaddress %></code></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+            </div>
+            <% if(staff) { %>
+                <div class="text-center">
+                    <hr>
+                    <h3 class="text-theme" style="font-weight: 700; margin-bottom: 0.6em; margin-top: 1rem;"><i class="fa-solid fa-shield-halved"></i> Administrator Settings</h3>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <h5 style="font-weight: 700; margin-bottom: 0.4em;"><i class="fa-solid fa-gavel"></i> Admin Disabled</h5>
+                            <p style="margin-bottom: 0.4em;">Toggling the <code>Admin Disabled</code> mode will force the license key to be disabled until an administrator enables it again.</p>
+                            <a href="/backend/toggleadmindisabled/license/<%= owneditem.uniqueid %>" class="btn btn-warning"><i class="fa-solid fa-gavel"></i> Toggle Admin Disabled</a>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <h5 style="font-weight: 700; margin-bottom: 0.4em;"><i class="fa-solid fa-ban"></i> Delete License</h5>
+                            <p style="margin-bottom: 0.4em;">Deleting the license will <span class="text-danger">remove</span> the product / owned item from the users account forcing them to purchase the product again.</p>
+                            <a href="/backend/account/delete/product/<%= owneditem.userid %>/<%= owneditem.uniqueid %>" class="btn btn-danger"><i class="fa-solid fa-ban"></i> Delete License / Owned Item</a>
+                        </div>
+                    </div>
+                </div>
+            <% }; %>
+            <hr>
+            <a href="/account/<%= owneditem.userid %>" style="margin-top: 1em;" class="btn btn-theme"><i class="fa-solid fa-user"></i> View Account</a>
+            <a href="/backend/findproduct/<%= owneditem.productid %>" style="margin-top: 1em;" class="btn btn-theme"><i class="fa-solid fa-cart-shopping"></i> View Product</a>
+            <% if(staff) { %>
+                <div class="mt-3">
+                    <p>Unique Id: <span class="filterblur"><%= owneditem.uniqueid %></span></p>
+                    <p>Product Id: <span class="filterblur"><%= owneditem.productid %></span></p>
+                </div>
+            <% }; %>
+        </div>
+        <br>
+        <br>
+        <br>
+        <script>
+            function myFunction() {
+              // Get the text field
+              var copyText = document.getElementById("thatlk");
+              var copyButton = document.getElementById("copyButton");
+            
+              // Select the text field
+              copyText.select();
+              copyText.setSelectionRange(0, 99999); // For mobile devices
+            
+              // Copy the text inside the text field
+              navigator.clipboard.writeText(copyText.value);
+              
+              // Alert the copied text
+              copyButton.textContent = "Copied!";
+              setTimeout(function() {
+                copyButton.textContent = "Copy";
+              }, 900);
+            }
+        </script>
+    </body>
+</html>

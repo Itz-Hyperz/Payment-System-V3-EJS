@@ -1,0 +1,128 @@
+<%
+function convertOrderStatus(value) {
+    switch(value) {
+      case 1:
+        return 'Order Recieved';
+        break;
+      case 2:
+        return 'Order Shipped';
+        break;
+      case 3:
+        return 'Order Delivered';
+        break;
+    };
+};
+%>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container p-4 bg-thatdark bd-theme mb-5">
+            <h1><code>View / Update Order</code></h1>
+            <br>
+            <form action="/backend/update/order/<%= order.uniqueid %>" method="post" enctype="multipart/form-data">
+                <div class="row justify-content-center">
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p class="text-theme"><i class="fa-solid fa-paper-plane"></i> Order Status</p>
+                      <select name="status" class="form-select searchbox" required>
+                        <option selected value="<%= order.status %>"><%= convertOrderStatus(order.status) %> (Current)</option>
+                        <option value="1">Order Recieved</option>
+                        <option value="2">Order Shipped</option>
+                        <option value="3">Order Delivered</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p><i class="fa-solid fa-link"></i> Tracking Info #</p>
+                      <input type="text" class="form-control darkinputcolor" name="trackinginfo" placeholder="Tracking Info #... (from FedEx or USPS)" value="<%= order.trackinginfo %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> First / Last Name</p>
+                      <input type="text" class="form-control darkinputcolor" name="firstlastname" placeholder="John Doe..." value="<%= order.firstlastname %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> Shipping Email</p>
+                      <input type="text" class="form-control darkinputcolor" name="shippingemail" placeholder="john@example.com" value="<%= order.shippingemail %>" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> Shipping Address</p>
+                      <input type="text" class="form-control darkinputcolor" name="address" placeholder="1234 Playground St." value="<%= order.address %>" required></input>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> City</p>
+                      <input type="text" class="form-control darkinputcolor" name="city" placeholder="Mirror Park" value="<%= order.city %>" required></input>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> State</p>
+                      <input type="text" class="form-control darkinputcolor" name="state" placeholder="California" value="<%= order.state %>" required></input>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> Zipcode</p>
+                      <input type="text" class="form-control darkinputcolor" name="zipcode" placeholder="49722" value="<%= order.zipcode %>" required></input>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <div class="text-start">
+                      <p> Country</p>
+                      <input type="text" class="form-control darkinputcolor" name="country" placeholder="United States of America" value="<%= order.country %>" required></input>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <a href="/admin" class="btn btn-secondary mt-4">Cancel</a>
+                    <button type="submit" class="btn btn-theme mt-4">Save Order Changes</button>
+                  </div>
+                </div>
+                <br>
+            </form>
+        </div>
+        <%- include('_footer') %>
+        <script>
+          function searchBar(position, bar, tbl) {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById(bar);
+            filter = input.value.toUpperCase();
+            table = document.getElementById(tbl);
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[position];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }
+            }
+          };
+        </script>
+    </body>
+</html>

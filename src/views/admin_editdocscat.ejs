@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container">
+            <h1><code>Edit Docs Category</code></h1>
+            <br>
+            <form action="/backend/update/docscat/<%= category.uniqueid %>" method="post" enctype="multipart/form-data">
+              <div class="row justify-content-center">
+                <div class="col-lg-6 mb-3">
+                  <input type="text" name="catname" class="form-control searchbox w-100" placeholder="Category name..." value="<%= category.name %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="text" name="catlink" class="form-control searchbox w-100" placeholder="Category link..." value="<%= category.link %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="number" name="catpos" class="form-control searchbox w-100" placeholder="Category position..." value="<%= category.pos %>" required>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <input type="file" name="catfile" class="form-control searchbox w-100" accept="image/png">
+                </div>
+                <div class="col-lg-12 mb-3">
+                  <textarea type="text" name="catdesc" class="form-control searchbox w-100" rows="7" placeholder="Category description..." required><%= category.description %></textarea>
+                </div>
+              </div>
+              <br>
+              <a href="/admin" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-theme">Save Category Changes</button>
+            </form>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

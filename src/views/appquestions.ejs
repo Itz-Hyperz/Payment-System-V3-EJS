@@ -1,0 +1,82 @@
+<%
+    function convertToText(item) {
+        if(item) {
+            return 'Yes';
+        } else {
+            return 'No';
+        };
+    };
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin Panel - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin Panel - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container bg-thatdark bd-theme p-4 text-center mt-5 mb-5 homecolumnfirsthr">
+            <h1><i class="fa-solid fa-clipboard-list"></i> <%= application.name %></h1>
+            <hr>
+            <a href="/admin" class="btn btn-theme w-100 mb-3"><i class="fa-solid fa-rotate-left"></i> Go Back</a>
+            <div class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-5">Question Manager</h2>
+                <div class="row text-start justify-content-center">
+                    <div class="col-lg-4 mb-3">
+                        <form action="/backend/create/appquestion/<%= application.id %>/1" method="post">
+                            <h3 class="bigfont mb-3">Standard Questions</h3>
+                            <input type="text" name="question" placeholder="Standard question..." class="form-control mb-3" required>
+                            <button type="submit" class="btn btn-theme w-100">Create Standard Question</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-8 mb-3">
+                        <form action="/backend/create/appquestion/<%= application.id %>/2" method="post">
+                            <h3 class="bigfont mb-3">Dropdown Questions</h3>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6">
+                                    <input type="text" name="question" placeholder="Dropdown question..." class="form-control mb-3" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" name="dropdownitems" placeholder="Dropdown items (separated by commas)" class="form-control mb-3" required>
+                                </div>
+                                <div class="col-lg-12 mb-3">
+                                    <button type="submit" class="btn btn-theme w-100">Create Dropdown Question</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Question</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% questions.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.content %></td>
+                              <td class="text-end"><a href="/backend/delete/appquestion/<%= application.id %>/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>View App - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Rules - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container bg-thatdark bd-theme borderradius text-center p-4 mt-5 mb-5 homecolumnfirsthr">
+            <h1><%= application.name %></h1>
+            <h5><code><%= response.status %></code></h5>
+            <hr>
+            <div class="row justify-content-center text-start">
+                <% response.responses.forEach(function(item) { %>
+                    <div class="col-lg-12 mb-3">
+                        <h5 class="bigfont mb-2"><%= item.question %></h5>
+                        <p><%= item.answer %></p>
+                    </div>
+                <% }); %>
+                <% if(isStaff) { %>
+                    <hr>
+                    <div class="col-lg-12 mb-3">
+                        <h5 class="text-center mb-3">Application Status</h5>
+                        <form action="/backend/update/application/status/<%= response.id %>" method="post">
+                            <div class="row justify-content-center text-start">
+                                <div class="col-lg-6 mb-3">
+                                    <input type="text" placeholder="Application status..." value="<%= response.status %>" class="form-control" name="status" required>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <button type="submit" class="btn btn-theme w-100">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <% }; %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog Posts | <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Blog Posts | <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="View our companies blog posts!" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="View our companies blog posts!" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-start mb-5 custompagesmaindiv">
+            <% if(blogs[0]) { %>
+                <div class="container justify-content-center mt-5 mb-5">
+                    <h1 class="mb-4 text-center plus-jakarta-sans-bold">Blog <span class="text-theme">/</span> Newsletters</h1>
+                    <p style="font-size: 1.3em;" class="text-center text-secondary mb-5 bigfont plus-jakarta-sans">You can find all of our posts displayed below.</p>
+                    <div class="row justify-content-start blogrow">
+                        <% blogs.forEach(function(post) { %>
+                            <div class="col-lg-4">
+                                <a href="/blog/<%= post.link %>">
+                                    <div class="text-start bg-thatdark bd-thatdarkoutline p-5 whybossboxes mb-4">
+                                        <div class="bg-theme boxshadowlol piciconjakarta mb-3">
+                                            <i class="fa-regular fa-newspaper"></i>
+                                        </div>
+                                        <h5 class="plus-jakarta-sans-bold mb-3"><%= post.title.slice(0, 38) %>...</h5>
+                                        <h6 class="plus-jakarta-sans-bold mb-3"><i class="fa-regular fa-calendar text-theme"></i>: <%= post.datetime.split(' ')[0] %> | <i class="fa-solid fa-eye text-theme"></i>: <%= post.views.toLocaleString() %></h6>
+                                        <p class="mb-3 plus-jakarta-sans"><%= post.content.slice(0, 112) %>...</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } else { %>
+                <p class="text-secondary mt-5 mb-5">There are no blog posts to display...</p>
+                <a href="/" class="btn btn-theme">Back Home</a>
+            <% }; %>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

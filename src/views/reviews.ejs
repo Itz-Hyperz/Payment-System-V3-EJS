@@ -1,0 +1,131 @@
+<%
+    let count = 0;
+    let length = reviews.length;
+    for(let review of reviews) {
+        count = count + review.rating;
+    };
+    let avg = count / length;
+    if(isNaN(avg)) avg = 0;
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Reviews - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Reviews - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-center">
+            <h1 class="bigfont text-start">Community Reviews</h1>
+            <hr>
+            <p style="font-size: smaller;" class="text-warning text-start">Overall Rating of <%= Math.round(10*avg)/10 %> <i class="fa-solid fa-star"></i>'s</p>
+            <% if(owned.length > 0) { %>
+                <br>
+                <div class="w-100 text-start">
+                    <button type="button" style="margin-bottom: 0.6em;" class="btn btn-lg btn-outline-theme" data-bs-toggle="modal" data-bs-target="#reviewModal">Create Review</button>
+                </div>
+                <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content text-white bg-thatdark bd-theme">
+                        <form action="/backend/create/review" method="post">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Review</h1>
+                                <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body text-start">
+                                <label for="product">Product:</label>
+                                <select class="form-select reviewbottommargin" name="product" aria-label="Select a product to review." required>
+                                    <% owned.forEach(function(item) { %>
+                                        <option value="<%= item.productid %>"><%= item.productname %></option>
+                                    <% }); %>
+                                </select>
+                                <label for="rating">Rating:</label>
+                                <select class="form-select reviewbottommargin" name="rating" aria-label="Select a product to review." required>
+                                    <option value="5">5 ⭐</option>
+                                    <option value="4">4 ⭐</option>
+                                    <option value="3">3 ⭐</option>
+                                    <option value="2">2 ⭐</option>
+                                    <option value="1">1 ⭐</option>
+                                </select>
+                                <label for="content">Review Content:</label>
+                                <textarea class="form-control textareareview reviewbottommargin" name="content" rows="4" placeholder="Your review content here..." required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-theme">Create Review</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            <% }; %>
+            <br>
+            <br>
+        <% if(reviews.length < 1) { %>
+            <div class="p-5 mb-5 mt-4">
+                <h3 class="bigfont text-secondary mb-5">No reviews have been made yet...</h3>
+            </div>
+        <% } else { %>
+            <div class="row justify-content-start">
+                <% reviews.reverse().forEach(function(review) { %>
+                    <div class="col-lg-4 mb-3">
+                        <div class="p-3 bg-thatdark bd-theme">
+                            <a href="/review/<%= review.uniqueid %>" class="nohovereffecta">
+                                <img src="/images/avatar_<%= review.userid %>.png" class="reviewlogo bg-theme bd-theme boxshadowlight" alt="user image" loading="lazy">
+                                <div class="reviewstars">
+                                    <p>
+                                        <% if(review.rating <= 1) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        <% } else if(review.rating == 2) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        <% } else if(review.rating == 3) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        <% } else if(review.rating == 4) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        <% } else if(review.rating >= 5 ) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        <% }; %>
+                                    </p>
+                                </div>
+                                <h2 class="reviewheader"><%= review.username %></h2>
+                                <hr>
+                                <h6 class="reviewbody" style="text-decoration: underline;"><%= review.itemname %></h6>
+                                <p class="reviewbody"><%= review.content.slice(0, 209) %>...</p>
+                            </a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% }; %>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

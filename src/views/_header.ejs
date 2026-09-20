@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<link rel="apple-touch-icon" href="/assets/logo.png" />
+
+<%
+  let deCart = [];
+  if(typeof user.cart != 'undefined') {
+    deCart = JSON.parse(user.cart);
+  };
+  let totalValue = 0;
+  function convertMailValue(value) {
+        if(value) {
+            return 'Joined!';
+        } else {
+            return 'Not Participating...';
+        };
+  };
+  if(user) {
+    user.mailendpoints = JSON.parse(user.mailendpoints);
+  };
+  let textalign = "center";
+  switch(sitestyles.navbaralignment) {
+    case 0:
+      textalign = "start";
+      break;
+    case 1:
+      textalign = "center";
+      break;
+    case 2:
+      textalign = "end";
+      break;
+  };
+%>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@200;400;500;700;800&family=Inter:wght@200;400;700;800;900&family=Montserrat:wght@200;400;500;700;900&family=Source+Code+Pro:wght@200;400;700;900&family=Work+Sans:wght@200;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+<!-- Custom Styling & Scripts -->
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="/themes/<%= sitesettings.themefile %>">
+<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script> <!-- ReCaptcha Script Google -->
+
+<meta name="keywords" content="social media marketing agency, petoskey website design, online marketing services, local seo services, affordable website development, affordable website design, affordable, harbor springs web design, charlevoix website design, northern michigan website design, up north website creation,  nGoogle My Business services, certified social media specialist, Logan Gross, Boss Software Systems, Boss Software System, social media marketing agency for small business, social media training, corporate social media training, social media strategy for small business, Hyperz Development, social media help for small business, social media marketing petoskey, social media marketing northern Michigan, social media marketing Traverse City, social media marketing Grand Rapids, social media marketing Ann Arbor, social media marketing services, online marketing services, social media marketing expert, social media marketing specialist, Michigan social media marketing agency, Michigan social media marketing">
+
+<style>
+  :root {
+    --theme-color: <%= sitesettings.sitecolor %>;
+  }
+  .homepagereviews {
+    box-shadow:  inset 0 0 0 1000px #0000009c, inset 0 0 0 1000px <%= sitesettings.sitecolor %>e8;
+  }
+</style>
+
+    <!-- ANNOUNCEMENT START -->
+      <% if(sitesettings.notification != 'none') { %>
+        <div class="bg-theme text-center text-white bigfont plus-jakarta-sans-bold p-2">
+            <p class="notificationtext"><%- sitesettings.notification %></p>
+        </div>
+      <% }; %>
+    <!-- ANNOUNCEMENT END -->
+    <!-- NAVIGATION BAR START -->
+
+    <div class="navbarcontrollerwidth customheader text-white p-4 bg-thatdark w-100">
+      <div class="row mt-3 mb-3 justify-content-start">
+        <div class="col-2 mt-3 desktop text-start">
+          <% if(sitestyles.navbarlogo) { %>
+            <img src="/assets/logo.png" class="navbarlogo">
+          <% } else { %>
+            <a class="navbar-brand animate__animated animate__bounceInLeft" href="/"><%= sitesettings.sitename %></a>
+          <% }; %>
+        </div>
+        <div class="col-8 mt-3 desktop text-<%= textalign %>">
+          <% navbaritems.sort((a, b) => { return a.pos - b.pos; }).forEach(function (item) { %>
+            <a class="navbar-item" href="<%= item.link %>"><%= item.name %></a>
+          <% }); %>
+        </div>
+        <div class="col-2 desktop text-end">
+          <% if(user != false) { %>
+            <button class="btnnostyle" data-bs-toggle="dropdown">
+              <img src="/images/avatar_<%= user.id %>.png" class="headericonaccount"></img>
+            </button>
+            <ul class="dropdown-menu">
+              <small style="color: #5d626d; margin-left: 0.5em; margin-bottom: 0.2em; font-size: 0.6em; font-weight: 800;">YOUR INFORMATION</small>
+              <li><a class="dropdown-item" href="/account"><i class="fa-solid fa-user"></i> Account</a></li>
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#accountSettings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+              <li><button class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightNotis"><i class="fa-solid fa-bell"></i> Notifications (<%= user.notifications.filter(a => a.hasbeenread == false).length %>)</a></li>
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#mailSettings"><i class="fa-solid fa-envelope"></i> Communication</a></li>
+              <li><a class="dropdown-item" href="/admin"><i class="fa-solid fa-shield-halved"></i> Admin Panel</a></li>
+              <hr>
+              <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+            <a href="/cart" class="btn ms-3 btn-lg btn-theme cartbuttonnavbar"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+          <% } else { %>
+            <a href="/login" class="btn ms-3 btn-lg btn-theme cartbuttonnavbar"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+          <% }; %>
+        </div>
+        <div class="col-8 text-center mobile">
+          <% if(sitestyles.navbarlogo) { %>
+            <img src="/assets/logo.png" class="navbarlogo">
+          <% } else { %>
+            <a class="navbar-brand animate__animated animate__bounceInLeft" href="/"><%= sitesettings.sitename %></a>
+          <% }; %>
+        </div>
+        <div class="col-4 mobile">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNav" aria-controls="offcanvasDarkNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="col-4 tablet">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNav" aria-controls="offcanvasDarkNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+<!-- NOTIFICATION SIDEBAR START -->
+<% if(user != false) { %>
+  <div class="modal fade" id="mailSettings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content text-white bg-thatdark bd-theme">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-envelope"></i> Communication Preferences</h1>
+          <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <form action="/backend/account/update/communications" method="post">
+          <div class="modal-body">
+            <div class="row justify-content-center text-start">
+              <div class="col-lg-12 mb-3">
+                <label legacyfor="title"><i class="fa-solid fa-envelope-circle-check"></i> Join Mailing List?</label>
+                <select name="mailinglist" class="form-control darkinputcolor" required>
+                    <option value="<%= user.mailinglist %>" selected><%= convertMailValue(user.mailinglist) %> (current)</option>
+                    <option value="1">Join Mailing List</option>
+                    <option value="0">Don't Participate</option>
+                </select>
+              </div>
+              <hr>
+              <div class="col-lg-12 mb-3">
+                <label legacyfor="title"><i class="fa-solid fa-bell"></i> Receive Notifications</label>
+                <select name="notified" class="form-control darkinputcolor" required>
+                    <% if(user.mailendpoints.includes('NOTIFICATIONS')) { %>
+                        <option value="1" selected>Yes (current)</option>
+                    <% } else { %>
+                        <option value="0" selected>No (current)</option>
+                    <% }; %>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+              <div class="col-lg-12 mb-3">
+                <label legacyfor="title"><i class="fa-solid fa-shield-halved"></i> Receive Login Alerts</label>
+                <select name="loginalerts" class="form-control darkinputcolor" required>
+                    <% if(user.mailendpoints.includes('LOGIN_SESSION')) { %>
+                        <option value="1" selected>Yes (current)</option>
+                    <% } else { %>
+                        <option value="0" selected>No (current)</option>
+                    <% }; %>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+              <div class="col-lg-12 mb-3">
+                <label legacyfor="title"><i class="fa-regular fa-newspaper"></i> Receive Blog Updates</label>
+                <select name="newsletter" class="form-control darkinputcolor" required>
+                    <% if(user.mailendpoints.includes('NEWSLETTER')) { %>
+                        <option value="1" selected>Yes (current)</option>
+                    <% } else { %>
+                        <option value="0" selected>No (current)</option>
+                    <% }; %>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-theme"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="accountSettings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content text-white bg-thatdark bd-theme">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-gear"></i> Account Settings</h1>
+          <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form action="/backend/update/password" method="post"></form>
+              <div class="row justify-content-center">
+                  <div class="col-lg-4 mb-2 mt-2">
+                      <input type="password" name="password" placeholder="New password..." required class="form-control inputstylelol bg-input-dark w-100">
+                  </div>
+                  <div class="col-lg-4 mb-2 mt-2">
+                      <input type="password" name="confpassword" placeholder="Confirm password..." required class="form-control inputstylelol bg-input-dark w-100">
+                  </div>
+                  <div class="col-lg-4 mb-2 mt-2">
+                      <button type="submit" class="btn btn-theme w-100"><i class="fa-solid fa-floppy-disk"></i> Change Password</button>
+                  </div>
+              </div>
+          </form>
+          <hr>
+          <form action="/backend/update/avatar" enctype="multipart/form-data" method="post">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 mb-2 mt-2">
+                  <input type="file" accept="image/png" name="avatar" class="form-control bg-input-dark mb-2" required>
+                </div>
+                <div class="col-lg-6 mb-2 mt-2">
+                    <button type="submit" class="btn btn-theme w-100"><i class="fa-solid fa-floppy-disk"></i> Update Avatar</button>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRightNotis" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">Notifications</h5>
+      <button type="button" class="btnnostyle text-white closebutton" data-bs-dismiss="offcanvas" aria-label="Close">&times;</button>
+    </div>
+    <div class="offcanvas-body text-center">
+      <div class="customDivNotifications">
+        <table class="table text-white">
+          <thead>
+            <tr>
+              <td><p class="text-start" style="font-weight: 700;">Notification</p></td>
+              <td><p class="text-start" style="font-weight: 700;">Created</p></td>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(typeof user.notifications != 'undefined') { %>
+              <% user.notifications.reverse().forEach(function(noti) { %>
+                <% if(noti.hasbeenread) { %>
+                  <tr>
+                <% } else { %>
+                  <tr class="boxshadowlight">
+                <% }; %>
+                    <td><p class="notiparagraph"><a href="/backend/notify/dismiss/<%= noti.uniqueid %>" style="color: white;"><%= noti.content %></a></p></td>
+                    <td><p class="notidate text-theme"><%= noti.datetime %></p></td>
+                  </tr>
+              <% }); %>
+            <% }; %>
+          </tbody>
+      </table>
+      </div>
+      <br>
+      <div class="row justify-content-center notificationbuttons">
+        <div class="mb-1">
+          <hr>
+        </div>
+        <div class="col-lg-6 mt-1">
+          <a href="/backend/notify/deleteall" class="btn btn-outline-theme" style="width: 100%;"><i class="fa-solid fa-trash"></i> Delete All</a>
+        </div>
+        <div class="col-lg-6 mt-1">
+          <a href="/backend/notify/dismissall" class="btn btn-outline-theme" style="width: 100%;"><i class="fa-solid fa-bell-slash"></i> Dismiss All</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% }; %>
+<!-- NOTIFICATION SIDEBAR END -->
+<!-- NAVIGATION SIDEBAR START -->
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNav" aria-labelledby="offcanvasDarkLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDarkLabel"><%= sitesettings.sitename %></h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="navbar-nav animate__animated animate__bounceInRight">
+      <% navbaritems.sort((a, b) => { return a.pos - b.pos; }).forEach(function (item) { %>
+        <a class="nav-link" href="<%= item.link %>"><%= item.name %></a>
+      <% }); %>
+      <br>
+      <div class="d-flex mx-auto">
+        <% if(user != false) { %>
+          <button class="notiicon btnnostyle ms-2 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightNotis" aria-controls="offcanvasRight">
+            <i class="fa-solid fa-bell"></i>
+          </button>
+        <% }; %>
+        <% if(sitestyles.productsearch) { %>
+          <a class="nav-link ms-2 me-2" href="/search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </a>
+        <% }; %>
+        <a class="nav-link ms-2 me-2" href="/cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+        <a class="nav-link ms-2 me-2" href="/account">
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <button class="carticon btnnostyle ms-2 me-2" type="button" data-bs-toggle="modal" data-bs-target="#accountSettings" aria-controls="offcanvasRight">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+        <button class="carticon btnnostyle ms-2 me-2" type="button" data-bs-toggle="modal" data-bs-target="#mailSettings" aria-controls="offcanvasRight">
+          <i class="fa-solid fa-envelope"></i>
+        </button>
+        <a class="nav-link ms-2 me-2" href="/admin">
+          <i class="fa-solid fa-shield-halved"></i>
+        </a>
+      </div>
+    </div>
+    <img src="/assets/logo.png" class="mobilenavbarlogo" alt="webstore logo" loading="lazy">
+  </div>
+</div>
+<!-- NAVIGATION SIDEBAR END -->
+<div class="headertocontent"></div>
+<script>
+  const arrowButton = document.getElementById("arrowtogodown");
+  function arrowMove() {
+    arrowButton.scrollIntoView(true, {behavior: "smooth", block: "end", inline: "nearest"});
+  };
+</script>

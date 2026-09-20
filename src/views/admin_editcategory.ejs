@@ -1,0 +1,80 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container p-4 bg-thatdark bd-theme mb-5">
+            <h1><code>Edit Category</code></h1>
+            <br>
+            <form action="/backend/update/storecat/<%= product.uniqueid %>" method="post" enctype="multipart/form-data">
+              <div class="row justify-content-center">
+                <div class="col-lg-6 mb-3">
+                  <div class="text-start">
+                    <p><i class="fa-solid fa-paper-plane"></i> Category Name</p>
+                    <input type="text" class="form-control darkinputcolor" name="catname" placeholder="Category name..." value="<%= product.name %>" required>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="text-start">
+                    <p><i class="fa-solid fa-link"></i> Link URL (/shop/<b>mycategory</b>)</p>
+                    <input type="text" class="form-control darkinputcolor" name="catlink" placeholder="Category link... (mycategory)" value="<%= product.link %>" required>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="text-start">
+                    <p><i class="fa-solid fa-clipboard"></i> Category Description</p>
+                    <textarea class="form-control darkinputcolor" name="catdescription" placeholder="This is just an amazing category!" rows="9" required><%= product.description %></textarea>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="text-start">
+                    <p><i class="fa-solid fa-location-dot"></i> Category Positioning</p>
+                    <input type="number" class="form-control darkinputcolor mb-4" name="catpos" placeholder="Category position... (14)" value="<%= product.pos %>" required>
+                    <p class="mb-2"><i class="fa-solid fa-file-zipper"></i> Featured Image (.PNG)</p>
+                    <input class="form-control darkinputcolor mb-4" type="file" accept="image/png" name="mainimage" id="formFile">
+                    <p class="mb-2"><i class="fa-solid fa-link"></i> Linked Items (<code>Unique Ids</code>) (comma separated)</p>
+                    <input type="text" class="form-control darkinputcolor" name="linkeditems" placeholder="123456abcdef, 789123ghijkl, 456789mnopqr" value="<%= product.items %>" required>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <a href="/admin" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-theme">Save Category Changes</button>
+            </form>
+        </div>
+        <%- include('_footer') %>
+        <script>
+          function searchBar(position, bar, tbl) {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById(bar);
+            filter = input.value.toUpperCase();
+            table = document.getElementById(tbl);
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[position];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }
+            }
+          };
+        </script>
+    </body>
+</html>

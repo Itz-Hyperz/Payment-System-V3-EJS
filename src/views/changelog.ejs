@@ -1,0 +1,98 @@
+<%
+    let total = 0;
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Changelog - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Changelog - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <br>
+        <h1 class="mb-4" style="font-weight: 700;"><%= product.name %> Changelogs</h1>
+        <% if(isStaff) { %>
+            <div class="row justify-content-center">
+                <div class="col-6 mb-3 text-end">
+                    <a href="/admin/editproduct/<%= product.uniqueid %>" class="btn btn-lg btn-theme"><i class="fa-solid fa-feather"></i> Edit Product</a>
+                </div>
+                <div class="col-6 mb-3 text-start">
+                    <button type="button" class="btn btn-lg btn-theme mb-5" data-bs-toggle="modal" data-bs-target="#changelogCreateModal"><i class="fa-solid fa-newspaper"></i> New Release</button>
+                    <div class="modal fade" id="changelogCreateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                        <div class="modal-content text-bg-dark">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-newspaper"></i> Create Changelog | <code><%= product.name %></code></h1>
+                            <button type="button" class="btnnostyle closebutton" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                            </div>
+                            <form action="/backend/create/changelog/<%= product.uniqueid %>" method="post">
+                            <div class="modal-body">
+                                <div class="row justify-content-center text-start">
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="title"><i class="fa-solid fa-book-bookmark"></i> Title</label>
+                                        <input type="text" name="title" class="form-control darkinputcolor searchbox" placeholder="Changelog title..." required>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="version"><i class="fa-solid fa-code-branch"></i> Version</label>
+                                        <input type="text" name="version" class="form-control darkinputcolor searchbox" placeholder="Changelog version... (1.1.0)" required>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <label for="content"><i class="fa-solid fa-comment"></i> Description</label>
+                                        <textarea name="content" class="form-control darkinputcolor searchbox" rows="5" placeholder="Changelog description..." required></textarea>
+                                        <br>
+                                        <p class="text-center" style="font-size: 1.6em; margin-top: 0.2em;"><input class="form-check-input" type="checkbox" value="" name="sendnoti"> Send Notification</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-theme"><i class="fa-solid fa-newspaper"></i> Create Changelog</button>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }; %>
+        <br>
+        <% changelogs.reverse().forEach(function(item) { %>
+            <div class="container text-start bg-dark boxshadowlol receiptbox">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 mb-3 footercolumnscentermobile text-start">
+                        <h1 class="text-theme mb-3" style="font-weight: 700;"><%= item.title %></h1>
+                        <h2><code><%= item.vers %></code></h2>
+                    </div>
+                    <div class="col-lg-6 mb-3 footercolumnscentermobile text-end">
+                        <h3 class="mb-4" style="opacity: 0.9;"><%= item.datetime %></h3>
+                        <a href="/shop/<%= product.link %>" class="btn btn-lg btn-outline-theme"><i class="fa-solid fa-eye"></i> View Product</a>
+                    </div>
+                </div>
+                <hr>
+                <%- item.converted %>
+                <% if(isStaff) { %>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="text-center">
+                        <h3 class="mb-4" style="font-weight: 700;"><i class="fa-solid fa-shield-halved"></i> Staff Settings</h3>
+                        <a href="/admin/editchangelog/<%= item.uniqueid %>" class="btn btn-theme mb-3"><i class="fa-solid fa-feather"></i> Edit Changelog <%= item.vers %></a>
+                        <a href="/backend/delete/changelog/<%= item.uniqueid %>" class="btn btn-danger mb-3"><i class="fa-solid fa-trash"></i> Delete Changelog <%= item.vers %></a>
+                    </div>
+                <% }; %>
+            </div>
+            <br>
+            <br>
+            <br>
+        <% }); %>
+        <%- include('_footer') %>
+    </body>
+</html>

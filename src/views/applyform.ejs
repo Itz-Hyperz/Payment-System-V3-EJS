@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= application.name %> - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="<%= application.name %> - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-center bg-thatdark bd-theme mt-5 mb-5 p-4 borderradius homecolumnfirsthr">
+            <h1><i class="fa-solid fa-clipboard-list"></i> <%= application.name %></h1>
+            <hr>
+            <form action="/backend/application/submit/<%= application.id %>" method="post">
+                <div class="row justify-content-center text-start">
+                    <% questions.forEach(function(item) { %>
+                        <div class="col-lg-12 mb-3">
+                            <label for="question_<%= item.id %>"><%= item.content %></label>
+                            <% if(item.type == 1) { %>
+                                <input type="text" name="question_<%= item.id %>" placeholder="Type here..." class="form-control" required>
+                            <% } else if(item.type == 2) { %>
+                                <select name="question_<%= item.id %>" class="form-control" required>
+                                    <% item.dropdownitems.split(',').forEach(function(dropdownitem) { %>
+                                        <option value="<%= dropdownitem %>"><%= dropdownitem %></option>
+                                    <% }); %>
+                                </select>
+                            <% }; %>
+                        </div>
+                    <% }); %>
+                    <div class="col-lg-12 mb-3">
+                        <button type="submit" class="btn btn-theme w-100">Submit Application</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

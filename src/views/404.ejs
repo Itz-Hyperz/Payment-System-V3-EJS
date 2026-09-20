@@ -1,0 +1,59 @@
+<%
+  let deCart = [];
+  if(typeof user.cart != 'undefined') {
+    deCart = JSON.parse(user.cart);
+  };
+  let totalValue = 0;
+
+  let headerStyle = "navbar navbar-expand-lg customheader text-white p-4 bg-theme";
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>404 - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="404 - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <link rel="stylesheet" href="/assets/main.css">
+        <style>
+            .item1 {
+                padding-top: 75px;
+                color: white;
+                text-align: center;
+                font-size: 40px;
+                font-weight: bold;
+                display: block;
+                position: relative;
+                margin: 0;
+            }
+            .item2 {
+                padding-top: 10px;
+                color: white;
+                text-align: center;
+                font-size: 40px;
+                display: block;
+                position: relative;
+                margin: 0;
+            }
+            .headertocontent {
+                display: none !important;
+                visibility: hidden !important;
+            }
+        </style>
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="pt-5 headerimagehome">
+            <div class="pt-5 animate__animated animate__shakeX">
+                <p class="pt-5 midtitle">404 Not Found</p>
+                <p class="midpg">The page you are looking for no-longer exists...</p>
+                <a href="/" class="midbutton bg-theme bd-theme"><i class="fa-solid fa-house-chimney"></i> Go Home</a>
+                <br>
+            </div>
+        </div>
+    </body>
+</html>

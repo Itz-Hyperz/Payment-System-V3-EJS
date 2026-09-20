@@ -1,0 +1,159 @@
+<%
+  function convertOrderStatus(value) {
+    switch(value) {
+      case 1:
+        return 'Recieved / Pending';
+        break;
+      case 2:
+        return 'Packed / Shipped';
+        break;
+      case 3:
+        return 'Order Delivered';
+        break;
+    };
+  };
+  function convertOrderStatusColor(value) {
+    switch(value) {
+      case 1:
+        return 'text-warning';
+        break;
+      case 2:
+        return 'text-primary';
+        break;
+      case 3:
+        return 'text-success';
+        break;
+    };
+  };
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Shipping Info - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Shipping Info - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo:ital@1&family=Montserrat:wght@500&family=Source+Code+Pro:wght@200;300&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script>console.log('EJS template made by Hyperz#0001');</script>
+
+        <!-- Custom Styling & Scripts -->
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
+
+        <style>
+            a:hover {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            .bg-theme {
+                background-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .bd-theme {
+                border-style: solid;
+                border-color: <%= sitesettings.sitecolor %> !important;
+            }
+            .text-theme {
+                color: <%= sitesettings.sitecolor %> !important;
+            }
+            .btn-theme {
+            color: white;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-theme:hover {
+            border-color: <%= sitesettings.sitecolor %>;
+            background-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme {
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .btn-outline-theme:hover {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .form-check-input:checked {
+            background-color: <%= sitesettings.sitecolor %>;
+            border-color: <%= sitesettings.sitecolor %>;
+            }
+            .productpagecontainer a {
+            color: <%= sitesettings.sitecolor %>;
+            }
+            /* Highlight Stuffs */
+            ::selection {
+                background: <%= sitesettings.sitecolor %>; /* WebKit/Blink Browsers */
+            }
+            ::-moz-selection {
+                background: <%= sitesettings.sitecolor %>; /* Gecko Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <br>
+        <br>
+        <div class="container text-start bg-dark boxshadowlol receiptbox">
+            <div class="printable" id="printableReceipt">
+                <p class="receiptheader">Order Id: <code style="padding: 0.1em; font-weight: 100;"><%= order.uniqueid %></code></p>
+                <h3><span style="font-weight: 700;">Date:</span> <span class="text-theme"><%= order.datebought %></span></h3>
+                <h4><span style="font-weight: 700;">Account #:</span> <code><%= order.userid %></code></h4>
+                <hr>
+                <h3 style="font-weight: 700;">Shipping Information:</h3>
+                <% if(order.status == 1) { %>
+                    <small class="text-warning">If you need to make changes to this, please contact us immediately!</small>
+                    <hr>
+                <% }; %>
+                <div>
+                    <div class="row">
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Order Status:</code> <span class="<%= convertOrderStatusColor(order.status) %>"><%= convertOrderStatus(order.status) %></span></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Tracking #:</code> <%= order.trackinginfo %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>First / Last Name:</code> <%= order.firstlastname %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Shipping Email:</code> <%= order.shippingemail %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Address:</code> <%= order.address %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>City:</code> <%= order.city %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>State:</code> <%= order.state %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Zipcode:</code> <%= order.zipcode %></p>
+                        </div>
+                        <div class="col-lg-12 mb-1">
+                            <p><code>Country:</code> <%= order.country %></p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="d-flex">
+                <a href="/account" class="btn btn-theme me-1 mb-1"><i class="fa-solid fa-user"></i> My Account</a>
+                <a href="/" class="btn btn-theme ms-1 mb-1"><i class="fa-solid fa-house"></i> Go Home</a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+    </body>
+</html>

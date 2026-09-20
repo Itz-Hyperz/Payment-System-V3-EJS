@@ -1,0 +1,41 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container">
+            <h1><code>Edit Changelog</code></h1>
+            <br>
+            <form action="/backend/update/changelog/<%= changelog.uniqueid %>" method="post" enctype="multipart/form-data">
+                <div class="row justify-content-center text-start">
+                  <div class="col-lg-6 mb-3">
+                    <label for="title"><i class="fa-solid fa-book-bookmark"></i> Title</label>
+                    <input type="text" name="title" class="form-control darkinputcolor searchbox" placeholder="Changelog title..." value="<%= changelog.title %>" required>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <label for="version"><i class="fa-solid fa-code-branch"></i> Version</label>
+                    <input type="text" name="version" class="form-control darkinputcolor searchbox" placeholder="Changelog version... (1.1.0)" value="<%= changelog.vers %>" required>
+                  </div>
+                  <div class="col-lg-12 mb-3">
+                    <label for="content"><i class="fa-solid fa-comment"></i> Description</label>
+                    <textarea name="content" class="form-control darkinputcolor searchbox" rows="10" placeholder="Changelog description..." required><%= changelog.content %></textarea>
+                  </div>
+                </div>
+                <br>
+                <a href="/changelog/<%= changelog.productid %>" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-theme"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+            </form>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>
